@@ -1,0 +1,21 @@
+{
+  "name": "wetube",
+  "version": "1.0.0",
+  "description": "Youtube Clone",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lotus-yeon/wetube-2021.git"
+  },
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "Yeon",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/lotus-yeon/wetube-2021/issues"
+  },
+  "homepage": "https://github.com/lotus-yeon/wetube-2021#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
