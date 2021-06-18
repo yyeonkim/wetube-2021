@@ -2,3 +2,8 @@ extends base.pug
 
 block content 
     h2 요즘 트렌드한 영상이 뭔지 확인하세요
+    ul
+        each video in videos
+            li=video
+        else        
+            li 영상을 찾을 수 없습니다.
