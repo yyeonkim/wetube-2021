@@ -5,10 +5,8 @@ html(lang="ko")
         link(rel="stylesheet" href="https://unpkg.com/mvp.css")
     body 
         header               
-            li                        
-                a(href="/login") 로그인
-
             h1=pageTitle
+            block navigationBar
         main
             block content
         include partials/footer
