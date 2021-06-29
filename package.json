@@ -7,7 +7,7 @@
     "url": "git+https://github.com/lotus-yeon/wetube-2021.git"
   },
   "scripts": {
-    "dev": "nodemon --exec babel-node src/server.js"
+    "dev": "nodemon --exec babel-node src/init.js"
   },
   "author": "Yeon",
   "license": "MIT",
