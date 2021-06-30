@@ -8,7 +8,6 @@ block navigationBar
                 a(href="/videos/upload") 영상 업로드하기
 
 block content 
-    h2 요즘 트렌드한 영상이 뭔지 확인하세요
     each video in videos
         +video(video)
     else        
