@@ -3,4 +3,6 @@ extends base.pug
 block content  
    form(method="POST")
         input(name="title", placeholder="영상 이름", required, type="text")
+        input(name="description", placeholder="영상 설명", required, type="text")
+        input(name="hashtags", placeholder="해시태그 (쉼표로 구분해주세요)", required, type="text")
         input(type="submit", value="업로드하기")
