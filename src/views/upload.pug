@@ -1,6 +1,8 @@
 extends base.pug
 
 block content  
+   if errorMessage
+      span=errorMessage
    form(method="POST")
         input(name="title", placeholder="영상 이름", required, type="text")
         input(name="description", placeholder="영상 설명", required, type="text")
