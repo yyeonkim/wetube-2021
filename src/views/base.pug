@@ -7,6 +7,13 @@ html(lang="ko")
         header               
             h1=pageTitle
             block navigationBar
+                nav 
+                    ul 
+                        li 
+                            a(href="/") 홈으로
+                        li
+                            a(href="/videos/upload") 영상 업로드하기
+                        
         main
             block content
         include partials/footer

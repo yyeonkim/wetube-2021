@@ -1,12 +1,6 @@
 extends base
 include mixins/video
 
-block navigationBar 
-    nav 
-        ul 
-            li 
-                a(href="/videos/upload") 영상 업로드하기
-
 block content 
     each video in videos
         +video(video)
