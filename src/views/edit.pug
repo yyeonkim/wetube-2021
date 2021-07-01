@@ -4,4 +4,6 @@ block content
     h4 영상 이름 바꾸기
     form(method="POST")
         input(name="title", placeholder="영상 이름", value=video.title, required)
-        input(value="저장", type="submit")
+        input(name="description", placeholder="영상 설명", value=video.description, required, type="text")
+        input(name="hashtags", placeholder="해시태그 (쉼표로 구분해주세요)", value=video.hashtags.join(), required, type="text")
+        input(value="저장하기", type="submit")
