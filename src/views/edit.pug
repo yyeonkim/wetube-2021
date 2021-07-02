@@ -1,7 +1,7 @@
 extends base.pug
 
 block content 
-    h4 영상 이름 바꾸기
+    h4 영상 업로드하기
     form(method="POST")
         input(name="title", placeholder="영상 이름", value=video.title, required)
         input(name="description", placeholder="영상 설명", value=video.description, required, type="text")
