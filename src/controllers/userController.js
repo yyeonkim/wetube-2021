@@ -19,18 +19,26 @@ export const postJoin = async (req, res) => {
       errorMessage: "이미 사용 중인 아이디/이메일입니다.",
     });
   }
-  await User.create({
-    name,
-    username,
-    email,
-    password,
-    location,
-  });
-  return res.redirect("/login");
+  try {
+    await User.create({
+      name,
+      username,
+      email,
+      password,
+      location,
+    });
+    return res.redirect("/login");
+  } catch (error) {
+    return res.status(400).render("upload", {
+      pageTitle,
+      errorMessage: error._message,
+    });
+  }
 };
+
+export const getLogin = (req, res) => res.render("login");
 
 export const edit = (req, res) => res.send("Edit User");
 export const remove = (req, res) => res.send("Remove User");
-export const login = (req, res) => res.send("Login");
 export const logout = (req, res) => res.send("Logout");
 export const see = (req, res) => res.send("See");
