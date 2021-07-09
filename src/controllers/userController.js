@@ -57,7 +57,8 @@ export const postLogin = async (req, res) => {
       errorMessage: "비밀번호가 일치하지 않습니다.",
     });
   }
-  console.log("USER LOGIN COMING SOON!");
+  req.session.loggedIn = true;
+  req.session.user = user;
   return res.redirect("/");
 };
 

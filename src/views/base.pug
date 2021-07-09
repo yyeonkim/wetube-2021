@@ -11,12 +11,20 @@ html(lang="ko")
                     ul 
                         li 
                             a(href="/") 홈으로
+                        if loggedIn
+                            li
+                                a(href="/logout") 로그아웃
+                            li
+                                a(href="/profile") #{loggedInUser.name}님    
+                        else
+                            li
+                                a(href="/join") 회원가입    
+                            li
+                                a(href="/login") 로그인  
                         li
                             a(href="/videos/upload") 업로드하기
                         li
                             a(href="/search") 검색하기    
-                        li
-                            a(href="/join") 회원가입    
                         
                         
         main
