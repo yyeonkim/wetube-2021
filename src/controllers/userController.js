@@ -133,9 +133,15 @@ export const finishGithubLogin = async (req, res) => {
     return res.redirect("/login"); // notification
   }
 };
-export const edit = (req, res) => res.send("Edit User");
+export const getEdit = (req, res) => {
+  return res.render("edit-profile", {
+    pageTitle: "프로필 편집",
+  });
+};
+export const postEdit = (req, res) => {
+  return res.render("edit-profile");
+};
 export const logout = (req, res) => {
-  console.log(req.sessions);
   req.session.destroy();
   return res.redirect("/");
 };
