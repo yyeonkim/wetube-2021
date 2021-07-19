@@ -138,8 +138,33 @@ export const getEdit = (req, res) => {
     pageTitle: "프로필 편집",
   });
 };
-export const postEdit = (req, res) => {
-  return res.render("edit-profile");
+export const postEdit = async (req, res) => {
+  const {
+    session: {
+      user: { _id, email: sessionEmail },
+    },
+    body: { name, email, location },
+  } = req;
+  if (sessionEmail !== email) {
+    const exists = await User.exists({ $or: [{ email }] });
+    if (exists) {
+      return res.status(400).render("edit-profile", {
+        pageTitle: "프로필 편집",
+        errorMessage: "이미 사용 중인 아이디/이메일입니다.",
+      });
+    }
+  }
+  const updatedUser = await User.findByIdAndUpdate(
+    _id,
+    {
+      name,
+      email,
+      location,
+    },
+    { new: true }
+  );
+  req.session.user = updatedUser;
+  return res.redirect("/users/edit");
 };
 export const logout = (req, res) => {
   req.session.destroy();
