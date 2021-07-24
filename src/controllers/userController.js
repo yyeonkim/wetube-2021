@@ -141,9 +141,10 @@ export const getEdit = (req, res) => {
 export const postEdit = async (req, res) => {
   const {
     session: {
-      user: { _id, email: sessionEmail },
+      user: { _id, email: sessionEmail, avatarUrl },
     },
     body: { name, email, location },
+    file,
   } = req;
   if (sessionEmail !== email) {
     const exists = await User.exists({ $or: [{ email }] });
@@ -160,6 +161,7 @@ export const postEdit = async (req, res) => {
       name,
       email,
       location,
+      avatarUrl: file ? file.path : avatarUrl,
     },
     { new: true }
   );
