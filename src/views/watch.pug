@@ -5,6 +5,12 @@ block content
     div
         p=video.description
         small=video.createdAt
-    a(href=`${video.id}/edit`) 편집하기 &rarr;
-    br
-    a(href=`${video.id}/delete`) 삭제하기 &rarr;
+    div 
+        small Uploaded by 
+            a(href=`/users/${video.owner._id}`) #{video.owner.name}
+    if String(video.owner._id) === String(loggedInUser._id)
+        a(href=`${video.id}/edit`) 편집하기 &rarr;
+        br
+        a(href=`${video.id}/delete`) 삭제하기 &rarr;
+    
+    

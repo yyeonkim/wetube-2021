@@ -10,7 +10,7 @@ block content
         input(name="avatar", id="avatar",type="file", accept="image/*")
         input(name="name", type="text", placeholder="이름",value=loggedInUser.name, required)
         input(name="email", type="email", placeholder="이메일",value=loggedInUser.email, required)
-        input(name="location", type="text", placeholder="위치",value=loggedInUser.location, required)
+        input(name="location", type="text", placeholder="위치",value=loggedInUser.location)
         input(type="submit", value="저장하기")
         if (!loggedInUser.socialOnly) 
             hr

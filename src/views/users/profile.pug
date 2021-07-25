@@ -1,4 +1,8 @@
 extends ../base
+include ../mixins/video
 
 block content   
-    h1 Hello
+    each video in videos 
+        +video(video)
+    else 
+        li 아직 올린 영상이 없습니다.

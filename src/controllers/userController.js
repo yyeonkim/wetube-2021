@@ -1,4 +1,5 @@
 import User from "../models/User";
+import Video from "../models/Video";
 import bcrypt from "bcrypt";
 import fetch from "node-fetch";
 
@@ -211,8 +212,10 @@ export const see = async (req, res) => {
       .status(404)
       .render("404", { pageTitle: "존재하지 않는 회원입니다." });
   }
+  const videos = await Video.find({ owner: user._id });
   return res.render("users/profile", {
     pageTitle: `${user.name}님`,
     user,
+    videos,
   });
 };
