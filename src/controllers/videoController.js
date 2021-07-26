@@ -8,6 +8,9 @@ export const home = async (req, res) => {
 
 export const watch = async (req, res) => {
   const { id } = req.params;
+  const {
+    user: { _id },
+  } = req.session;
   const video = await Video.findById(id).populate("owner");
   if (!video) {
     return res.render("404", { pageTitle: "영상을 찾을 수 없습니다." });
@@ -17,11 +20,17 @@ export const watch = async (req, res) => {
 
 export const getEdit = async (req, res) => {
   const { id } = req.params;
+  const {
+    user: { _id },
+  } = req.session;
   const video = await Video.findById(id);
   if (!video) {
     return res
       .status(404)
       .render("404", { pageTitle: "영상을 찾을 수 없습니다." });
+  }
+  if (String(video.owner) !== String(_id)) {
+    return res.status(403).redirect("/"); // notification
   }
   return res.render("edit", { pageTitle: `편집하기: ${video.title}`, video });
 };
@@ -75,6 +84,18 @@ export const postUpload = async (req, res) => {
 
 export const deleteVideo = async (req, res) => {
   const { id } = req.params;
+  const {
+    user: { _id },
+  } = req.session;
+  const video = await Video.findById(id);
+  if (!video) {
+    return res
+      .status(404)
+      .render("404", { pageTitle: "영상을 찾을 수 없습니다." });
+  }
+  if (String(video.owner) !== String(_id)) {
+    return res.status(403).redirect("/"); // notification
+  }
   await Video.findByIdAndDelete(id);
   return res.redirect("/");
 };
