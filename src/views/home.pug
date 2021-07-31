@@ -1,8 +1,10 @@
 extends base
 include mixins/video
 
-block content 
-    each video in videos
-        +video(video)
-    else        
-        li 영상을 찾을 수 없습니다.
+block content
+    div.video-grid
+        each video in videos
+            +video(video)
+            
+        else        
+            span.empty__message 아직 업로드된 동영상이 없습니다.

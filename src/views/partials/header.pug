@@ -1,0 +1,28 @@
+header 
+    a(href="/").header__logo              
+        i.fab.fa-youtube
+    nav 
+        ul
+            li
+                a(href="/search") 
+                    i.fas.fa-search  
+            if loggedIn
+                li
+                    a(href="/users/logout") 로그아웃
+                li
+                    a(href="/videos/upload") 업로드하기
+                li
+                    a(href="/users/edit") 프로필편집
+                li
+                    a(href=`/users/${loggedInUser._id}`)
+                        if loggedInUser.avatarUrl === ""
+                            img(src="https://i1.wp.com/jejuhydrofarms.com/wp-content/uploads/2020/05/blank-profile-picture-973460_1280.png?fit=300%2C300&ssl=1")
+                        else    
+                            img(src="/" + loggedInUser.avatarUrl)
+            else
+                li
+                    a(href="/join") 회원가입    
+                li
+                    a(href="/login").header__btn 로그인  
+            
+            

@@ -6,10 +6,8 @@ block content
     form(method="POST")
         input(name="username", type="text", placeholder="아이디", required)
         input(name="password", type="password", placeholder="비밀번호", required)
-        input(type="submit", value="로그인하기")
-        br
-        a(href="/users/github/start") 깃허브로 로그인하기 &rarr;
-    hr
-    div
+        input(type="submit", value="로그인")
+        include partials/social-login
+    div.auth-switch
         span 계정이 없나요? 
         a(href="/join") 회원가입하기 &rarr;

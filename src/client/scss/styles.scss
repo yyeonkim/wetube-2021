@@ -1,6 +1,37 @@
-@import "./_variables.scss";
+// Config
+@import "./config/_variables.scss";
+@import "./config/_reset.scss";
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR&family=Roboto&display=swap");
 
+// Components
+@import "./components/header.scss";
+@import "./components/footer.scss";
+@import "./components/video.scss";
+@import "./components/shared.scss";
+@import "./components/forms.scss";
+@import "./components/social-login.scss";
+
+//Screens
+@import "./screens/home.scss";
+@import "./screens/search.scss";
+@import "./screens/profile.scss";
+@import "./screens/edit-profile.scss";
+
+//Defaults
 body {
-  background-color: $red;
+  font-family: "Roboto", "Noto Sans KR", sans-serif;
+  background-color: $bg;
   color: white;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+main {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  margin-top: 3.125rem;
 }
