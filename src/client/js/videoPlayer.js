@@ -20,7 +20,7 @@ const handlePlayClick = (e) => {
   } else {
     video.pause();
   }
-  playBtn.innerText = video.paused ? "Play" : "Pause";
+  playBtn.classList = video.paused ? "fas fa-play" : "fas fa-pause";
 };
 
 const handleMute = (e) => {
@@ -29,8 +29,23 @@ const handleMute = (e) => {
   } else {
     video.muted = true;
   }
-  muteBtn.innerText = video.muted ? "Unmute" : "Mute";
+  muteBtn.classList = video.muted
+    ? "fas fa-volume-mute fa-lg"
+    : "fas fa-volume-down fa-lg";
   volumeRange.value = video.muted ? 0 : volumeValue;
+};
+
+const handleVolume = () => {
+  volumeRange.classList = "showing";
+};
+
+const handleLeaveControls = () => {
+  if (volumeRange.classList.value === "showing") {
+    volumeRange.classList = "hidden";
+    setTimeout(() => {
+      volumeRange.classList.remove("hidden");
+    }, 300);
+  }
 };
 
 const handleVolumeChange = (event) => {
@@ -78,10 +93,10 @@ const handleFullScreen = () => {
   const fullscreen = document.fullscreenElement;
   if (fullscreen) {
     document.exitFullscreen();
-    fullScreenBtn.innerText = "전체화면";
+    fullScreenBtn.classList = "fas fa-expand";
   } else {
     videoContainer.requestFullscreen();
-    fullScreenBtn.innerText = "전체화면 해제";
+    fullScreenBtn.classList = "fas fa-compress";
   }
 };
 
@@ -97,19 +112,21 @@ const handleMouseMove = () => {
     controlsTimeoutMovement = null;
   }
   videoControls.classList.add("showing");
-  controlsTimeoutMovement = setTimeout(hideControls, 3000);
+  controlsTimeoutMovement = setTimeout(hideControls, 2000);
 };
 
 const handleMouseLeave = () => {
-  controlsTimeout = setTimeout(hideControls, 3000);
+  controlsTimeout = setTimeout(hideControls, 2000);
 };
 
 playBtn.addEventListener("click", handlePlayClick);
 muteBtn.addEventListener("click", handleMute);
+muteBtn.addEventListener("mousemove", handleVolume);
 volumeRange.addEventListener("input", handleVolumeChange);
 video.addEventListener("loadedmetadata", handleLoadedMetadata);
 video.addEventListener("timeupdate", handleTimeUpdate);
 timeline.addEventListener("input", handleTimelineChange);
 fullScreenBtn.addEventListener("click", handleFullScreen);
-video.addEventListener("mousemove", handleMouseMove);
-video.addEventListener("mouseleave", handleMouseLeave);
+videoContainer.addEventListener("mousemove", handleMouseMove);
+videoContainer.addEventListener("mouseleave", handleMouseLeave);
+videoControls.addEventListener("mouseleave", handleLeaveControls);

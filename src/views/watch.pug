@@ -3,18 +3,19 @@ extends base.pug
 block content
     div#videoContainer
         video(src="/" + video.fileUrl)
-        div#videoControls     
-            button#play Play
-            button#mute Mute
-            input(type="range" step="0.1" value="0.8" min="0", max="1")#volume
-            div 
+        div#videoControls.videoControls    
+            span.videoControls__play
+                i#play.fas.fa-play
+            span.videoControls__volume
+                i#mute.fas.fa-volume-down.fa-lg
+                input(type="range" step="0.1" value="0.8" min="0", max="1")#volume
+            div.videoControls__time 
                 span#currentTime 00:00
                 span  / 
                 span#totalTime 00:00
-            div 
-                input(type="range" step="1" value="0" min="0")#timeline
-            div     
-                button#fullScreenBtn 전체화면
+            input(type="range" step="1" value="0" min="0")#timeline.videoControls__timeline 
+            span.videoControls__full
+                i#fullScreenBtn.fas.fa-expand
     //-
         div
             p=video.description

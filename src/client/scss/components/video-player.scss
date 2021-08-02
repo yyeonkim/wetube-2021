@@ -1,0 +1,69 @@
+#videoContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  position: relative;
+  video {
+    width: 100%;
+  }
+  .videoControls {
+    width: 95%;
+    position: absolute;
+    bottom: 0.625rem;
+    display: grid;
+    grid-template-columns: repeat(3, auto) 4fr auto;
+    align-items: center;
+    padding: 0.5rem 0;
+    background-color: rgba($color: #000000, $alpha: 0.7);
+    border-radius: 0.8rem;
+    opacity: 0;
+    transition: opacity 0.1s linear;
+    &.showing {
+      opacity: 1;
+    }
+  }
+  .videoControls__play {
+    padding: 0 1rem;
+  }
+  .videoControls__volume {
+    margin-right: 0.5rem;
+    i {
+      margin-right: 0.3rem;
+    }
+    input {
+      display: none;
+      &.showing {
+        display: inline;
+        animation: scale-up-left 0.3s forwards ease-in-out;
+      }
+      &.hidden {
+        display: inline;
+        animation: scale-down-left 0.3s forwards ease-in-out;
+      }
+    }
+  }
+  .videoControls__time {
+    margin-right: 0.5rem;
+  }
+  .videoControls__full {
+    padding: 0 1rem;
+  }
+}
+
+@keyframes scale-up-left {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100px;
+  }
+}
+@keyframes scale-down-left {
+  from {
+    width: 100px;
+  }
+  to {
+    width: 0;
+  }
+}
