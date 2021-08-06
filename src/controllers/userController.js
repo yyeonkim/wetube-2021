@@ -75,6 +75,7 @@ export const startGithubLogin = (req, res) => {
   const finalUrl = `${baseUrl}?${params}`;
   return res.redirect(finalUrl);
 };
+
 export const finishGithubLogin = async (req, res) => {
   const baseUrl = "https://github.com/login/oauth/access_token";
   const config = {
@@ -213,7 +214,6 @@ export const see = async (req, res) => {
       model: "User",
     },
   });
-  console.log(user);
   if (!user) {
     return res
       .status(404)

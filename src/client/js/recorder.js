@@ -46,6 +46,14 @@ const handleDownload = async () => {
   document.body.appendChild(thumbA);
   thumbA.click();
 
+  ffmpeg.FS("unlink", "recording.webm");
+  ffmpeg.FS("unlink", "output.mp4");
+  ffmpeg.FS("unlink", "thumbnail.jpg");
+
+  URL.revokeObjectURL(mp4Url);
+  URL.revokeObjectURL(thumbFile);
+  URL.revokeObjectURL(videoFile);
+
   startBtn.innerText = "녹화하기";
   startBtn.removeEventListener("click", handleDownload);
   startBtn.addEventListener("click", handleStart);
