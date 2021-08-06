@@ -1,14 +1,17 @@
 extends base.pug
 
 block content
-   div 
+   div.video-recorder
       video#preview
-      button#startBtn 녹화하기
+      button#startBtn 
+         i.fas.fa-video  녹화하기
    if errorMessage
       span=errorMessage
    form(method="POST", enctype="multipart/form-data")
-      label(for="video") 비디오 선택
-      input(name="video", type="file", accept="video/*", rerquired, id="video")
+      label(for="video") 영상 업로드
+      input(name="video", type="file", accept="video/*", required, id="video")
+      label(for="video") 썸네일 업로드
+      input(name="thumb", type="file", accept="image/*", required, id="thumb")
       input(name="title", placeholder="영상 이름", required, type="text", maxlength=80)
       input(name="description", placeholder="영상 설명", required, type="text")
       input(name="hashtags", placeholder="해시태그 (쉼표로 구분해주세요)", required, type="text")
