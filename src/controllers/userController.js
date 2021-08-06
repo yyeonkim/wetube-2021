@@ -10,17 +10,13 @@ export const postJoin = async (req, res) => {
   const { name, username, email, password, password2, location } = req.body;
   const pageTitle = "회원가입";
   if (password !== password2) {
-    return res.status(400).render("join", {
-      pageTitle,
-      errorMessage: "비밀번호가 일치하지 않습니다.",
-    });
+    req.flash("error", "비밀번호가 일치하지 않습니다.");
+    return res.status(400).redirect("/join");
   }
   const exists = await User.exists({ $or: [{ username }, { email }] });
   if (exists) {
-    return res.status(400).render("join", {
-      pageTitle,
-      errorMessage: "이미 사용 중인 아이디/이메일입니다.",
-    });
+    req.flash("error", "이미 사용 중인 아이디/이메일입니다.");
+    return res.status(400).redirect("/join");
   }
   try {
     await User.create({
@@ -48,17 +44,13 @@ export const postLogin = async (req, res) => {
   const pageTitle = "로그인";
   const user = await User.findOne({ username });
   if (!user) {
-    return res.status(400).render("login", {
-      pageTitle,
-      errorMessage: "존재하지 않는 계정입니다.",
-    });
+    req.flash("error", "존재하지 않는 계정입니다");
+    return res.status(400).redirect("/login");
   }
   const ok = await bcrypt.compare(password, user.password);
   if (!ok) {
-    return res.status(400).render("login", {
-      pageTitle,
-      errorMessage: "비밀번호가 일치하지 않습니다.",
-    });
+    req.flash("error", "비밀번호가 일치하지 않습니다.");
+    return res.status(400).redirect("/login");
   }
   req.session.loggedIn = true;
   req.session.user = user;
@@ -115,7 +107,8 @@ export const finishGithubLogin = async (req, res) => {
       (email) => email.primary === true && email.verified === true
     );
     if (!emailObj) {
-      return res.redirect("/login"); // notification
+      req.flash("error", "이메일 정보가 없습니다.");
+      return res.redirect("/login");
     }
     let user = await User.findOne({ email: emailObj.email });
     if (!user) {
@@ -133,7 +126,8 @@ export const finishGithubLogin = async (req, res) => {
     req.session.user = user;
     return res.redirect("/");
   } else {
-    return res.redirect("/login"); // notification
+    req.flash("error", "존재하지 않는 계정입니다.");
+    return res.redirect("/login");
   }
 };
 export const getEdit = (req, res) => {
@@ -152,10 +146,8 @@ export const postEdit = async (req, res) => {
   if (sessionEmail !== email) {
     const exists = await User.exists({ $or: [{ email }] });
     if (exists) {
-      return res.status(400).render("edit-profile", {
-        pageTitle: "프로필 편집",
-        errorMessage: "이미 사용 중인 아이디/이메일입니다.",
-      });
+      req.flash("error", "이미 사용 중인 아이디/이메일입니다.");
+      return res.status(400).redirect("edit-profile");
     }
   }
   const updatedUser = await User.findByIdAndUpdate(
@@ -195,16 +187,12 @@ export const postChangePassword = async (req, res) => {
   const user = await User.findById(_id);
   const ok = await bcrypt.compare(oldPassword, user.password);
   if (!ok) {
-    return res.status(400).render("users/change-password", {
-      pageTitle: "비밀번호 변경",
-      errorMessage: "현재 비밀번호가 일치하지 않습니다.",
-    });
+    req.flash("error", "현재 비밀번호가 일치하지 않습니다.");
+    return res.status(400).redirect("/users/change-password");
   }
   if (newPassword !== newComfirmation) {
-    return res.status(400).render("users/change-password", {
-      pageTitle: "비밀번호 변경",
-      errorMessage: "새 비밀번호가 일치하지 않습니다.",
-    });
+    req.flash("error", "새 비밀번호가 일치하지 않습니다.");
+    return res.status(400).redirect("/users/change-password");
   }
   user.password = newPassword;
   await user.save();

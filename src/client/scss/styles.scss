@@ -37,3 +37,36 @@ main {
   margin: 0 auto;
   margin-top: 3.125rem;
 }
+
+@keyframes goAway {
+  from {
+    transform: none;
+    opacity: 1;
+  }
+  to {
+    transform: translateY(-50px);
+    opacity: 0;
+  }
+}
+
+.message {
+  position: absolute;
+  top: 1.5rem;
+  left: 0;
+  right: 0;
+  max-width: 18.75rem;
+  margin: 0 auto;
+  text-align: center;
+  padding: 0.625rem 1.25rem;
+  border-radius: 1.25rem;
+  animation: goAway 0.5s forwards ease-in-out;
+  animation-delay: 2s;
+  &.error {
+    background-color: tomato;
+    color: white;
+  }
+  &.info {
+    background-color: #3dca63;
+    color: white;
+  }
+}
