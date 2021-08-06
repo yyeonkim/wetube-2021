@@ -30,6 +30,7 @@ export const postJoin = async (req, res) => {
       password,
       location,
     });
+    req.flash("info", "회원가입이 완료되었습니다.");
     return res.redirect("/login");
   } catch (error) {
     return res.status(400).render("upload", {
@@ -172,10 +173,15 @@ export const postEdit = async (req, res) => {
 };
 export const logout = (req, res) => {
   req.session.destroy();
+  req.flash("info", "Logout successful");
   return res.redirect("/");
 };
 
 export const getChangePassword = (req, res) => {
+  if (req.session.user.socialOnly === true) {
+    req.flash("error", "Not authorized");
+    return res.redirect("/");
+  }
   return res.render("users/change-password", { pageTitle: "비밀번호 변경" });
 };
 
@@ -202,6 +208,7 @@ export const postChangePassword = async (req, res) => {
   }
   user.password = newPassword;
   await user.save();
+  req.flash("info", "비밀번호가 변경되었습니다.");
   return res.redirect("/users/logout");
 };
 

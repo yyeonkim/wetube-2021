@@ -2,11 +2,12 @@ import express from "express";
 import morgan from "morgan";
 import session from "express-session";
 import MongoStore from "connect-mongo";
+import flash from "express-flash";
 import rootRouter from "./routers/rootRouter";
 import userRouter from "./routers/userRouter";
 import videoRouter from "./routers/videoRouter";
-import { localsMiddleware } from "./middlewares";
 import apiRouter from "./routers/apiRouter";
+import { localsMiddleware } from "./middlewares";
 
 /* Application */
 const app = express(); // express application
@@ -27,6 +28,7 @@ app.use(
     }),
   })
 );
+app.use(flash());
 app.use(localsMiddleware);
 app.use("/uploads", express.static("uploads"));
 app.use("/assets", express.static("assets"));

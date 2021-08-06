@@ -29,7 +29,8 @@ export const getEdit = async (req, res) => {
       .render("404", { pageTitle: "영상을 찾을 수 없습니다." });
   }
   if (String(video.owner) !== String(_id)) {
-    return res.status(403).redirect("/"); // notification
+    req.flash("error", "Not authorized");
+    return res.status(403).redirect("/");
   }
   return res.render("edit", { pageTitle: `편집하기: ${video.title}`, video });
 };
@@ -94,9 +95,11 @@ export const deleteVideo = async (req, res) => {
       .render("404", { pageTitle: "영상을 찾을 수 없습니다." });
   }
   if (String(video.owner) !== String(_id)) {
-    return res.status(403).redirect("/"); // notification
+    req.flash("error", "Not authorized");
+    return res.status(403).redirect("/");
   }
   await Video.findByIdAndDelete(id);
+  req.flash("info", "삭제되었습니다.");
   return res.redirect("/");
 };
 
@@ -117,9 +120,11 @@ export const registerView = async (req, res) => {
   const { id } = req.params;
   const video = await Video.findById(id);
   if (!video) {
+    req.flash("error", "영상을 찾을 수 없습니다.");
     return res.sendStatus(404);
   }
-  video.meta.views += 1;
+  video.meta.views = video.meta.views + 1;
+  console.log(video.meta.views);
   await video.save();
   return res.sendStatus(200);
 };
