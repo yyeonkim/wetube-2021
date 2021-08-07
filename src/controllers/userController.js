@@ -29,10 +29,8 @@ export const postJoin = async (req, res) => {
     req.flash("info", "회원가입이 완료되었습니다.");
     return res.redirect("/login");
   } catch (error) {
-    return res.status(400).render("upload", {
-      pageTitle,
-      errorMessage: error._message,
-    });
+    req.flash("error", error._message);
+    return res.status(400).redirect("upload");
   }
 };
 
