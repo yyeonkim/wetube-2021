@@ -213,7 +213,6 @@ export const see = async (req, res) => {
       .render("404", { pageTitle: "존재하지 않는 회원입니다." });
   }
   return res.render("users/profile", {
-    pageTitle: `${user.name}님`,
     user,
   });
 };
