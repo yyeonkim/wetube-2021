@@ -16,9 +16,9 @@ block content
             input(type="range" step="1" value="0" min="0")#timeline.videoControls__timeline 
             span.videoControls__full
                 i#fullScreenBtn.fas.fa-expand
-    div.watch__info
-        span.watch__title=video.title
-        p.watch__description=video.description
+    div.video__info
+        span.video__title=video.title
+        p.video__description=video.description
         small Uploaded by 
             a(href=`/users/${video.owner._id}`)=video.owner.name
         small  • #{video.createdAt}
@@ -28,5 +28,13 @@ block content
             br
             a(href=`${video.id}/delete`) 삭제하기 &rarr;
     
+    if loggedInUser
+        div.video__comments 
+            form.video__comment-from#commentForm
+                textarea(cols="30", rows="10", placeholder="여기에 댓글을 달아주세요.")
+                button 등록
+
+    
 block scripts   
     script(src="/assets/js/videoPlayer.js")
+    script(src="/assets/js/commentSection.js")
