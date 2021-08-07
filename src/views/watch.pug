@@ -20,8 +20,8 @@ block content
         span.watch__title=video.title
         p.watch__description=video.description
         small Uploaded by 
-            a(href=`/users/${video.owner._id}`) #{video.owner.name} • 
-        small=video.createdAt
+            a(href=`/users/${video.owner._id}`)=video.owner.name
+        small  • #{video.createdAt}
     if String(video.owner._id) === String(loggedInUser._id)
         div
             a(href=`${video.id}/edit`) 편집하기 &rarr;
