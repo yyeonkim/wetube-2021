@@ -76,10 +76,8 @@ export const postUpload = async (req, res) => {
     user.save();
     return res.redirect("/");
   } catch (error) {
-    return res.status(400).render("upload", {
-      pageTitle: "영상 업로드",
-      errorMessage: error._message,
-    });
+    req.flash("error", error._message);
+    return res.status(400).redirect("upload");
   }
 };
 

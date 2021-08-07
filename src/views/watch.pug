@@ -16,17 +16,17 @@ block content
             input(type="range" step="1" value="0" min="0")#timeline.videoControls__timeline 
             span.videoControls__full
                 i#fullScreenBtn.fas.fa-expand
-    //-
-    div
-        p=video.description
-        small=video.createdAt
-    div 
+    div.watch__info
+        span.watch__title=video.title
+        p.watch__description=video.description
         small Uploaded by 
-            a(href=`/users/${video.owner._id}`) #{video.owner.name}
+            a(href=`/users/${video.owner._id}`) #{video.owner.name} • 
+        small=video.createdAt
     if String(video.owner._id) === String(loggedInUser._id)
-        a(href=`${video.id}/edit`) 편집하기 &rarr;
-        br
-        a(href=`${video.id}/delete`) 삭제하기 &rarr;
+        div
+            a(href=`${video.id}/edit`) 편집하기 &rarr;
+            br
+            a(href=`${video.id}/delete`) 삭제하기 &rarr;
     
 block scripts   
     script(src="/assets/js/videoPlayer.js")

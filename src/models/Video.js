@@ -5,7 +5,11 @@ const videoSchema = new mongoose.Schema({
   description: { type: String, required: true, trim: true },
   fileUrl: { type: String, required: true },
   thumbUrl: { type: String, required: true },
-  createdAt: { type: Date, required: true, default: Date.now },
+  createdAt: {
+    type: String,
+    required: true,
+    default: new Date().toLocaleDateString("ko-KR"),
+  },
   hashtags: [{ type: String, trim: true }],
   meta: {
     views: { type: Number, required: true, default: 0 },
