@@ -30,11 +30,12 @@ block content
     
     if loggedInUser
         div.video__comments 
-            form.video__comment-from#commentForm
+            form.video__comment-form#commentForm
                 textarea(cols="30", rows="10", placeholder="여기에 댓글을 달아주세요.")
                 button 등록
 
     
 block scripts   
     script(src="/assets/js/videoPlayer.js")
-    script(src="/assets/js/commentSection.js")
+    if loggedIn
+        script(src="/assets/js/commentSection.js")
