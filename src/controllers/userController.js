@@ -161,9 +161,9 @@ export const postEdit = async (req, res) => {
   req.session.user = updatedUser;
   return res.redirect("/users/edit");
 };
+
 export const logout = (req, res) => {
   req.session.destroy();
-  req.flash("info", "Logout successful");
   return res.redirect("/");
 };
 
