@@ -34,10 +34,10 @@ block content
                 textarea(cols="30", rows="10", placeholder="여기에 댓글을 달아주세요.")
                 button 등록
     div.video__comments
-        ul 
+        ul(data-avatar=loggedInUser.avatarUrl) 
             each comment in video.comments.reverse()
                 li.video__comment 
-                    img(src="/" + user.avatarUrl)
+                    img(src="/" + loggedInUser.avatarUrl)
                     span=comment.text
 
     
