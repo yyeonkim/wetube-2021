@@ -162,3 +162,22 @@ export const createComment = async (req, res) => {
     commentAvatar: comment.owner.avatarUrl,
   });
 };
+
+export const deleteComment = async (req, res) => {
+  const { videoId, commentId } = req.params;
+  const video = await Video.findById(videoId);
+  if (!video) {
+    req.flash("error", "존재하지 않는 영상입니다.");
+    return res.sendStatus(400);
+  }
+  video.comments.remove(commentId);
+  video.save();
+
+  const comment = await Comment.findById(commentId);
+  if (!comment) {
+    req.flash("error", "댓글을 찾을 수 없습니다.");
+    return res.sendStatus(400);
+  }
+  await Comment.findByIdAndDelete(commentId);
+  return res.sendStatus(200);
+};

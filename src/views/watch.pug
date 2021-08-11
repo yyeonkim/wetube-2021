@@ -1,7 +1,7 @@
 extends base.pug
 
 block content
-    div#videoContainer(data-id=video._id)
+    div#videoContainer(data-videoid=video._id)
         video(src="/" + video.fileUrl)
         div#videoControls.videoControls    
             span.videoControls__play
@@ -36,12 +36,12 @@ block content
     div.video__comments
         ul
             each comment in video.comments.reverse()
-                li.video__comment(data-avatar=comment.owner.avatarUrl, data-commentId=comment._id)  
+                li.video__comment(data-avatar=comment.owner.avatarUrl, data-commentid=comment._id)  
                     img(src="/" + comment.owner.avatarUrl)
                     div
                         span.comment__text=comment.text
                         if String(comment.owner._id) === String(loggedInUser._id)
-                            span.comment__delete 삭제
+                            span.comment__delete#commentDelete 삭제
 
     
 block scripts   
