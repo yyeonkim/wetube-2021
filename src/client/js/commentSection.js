@@ -3,15 +3,15 @@ const { async } = require("regenerator-runtime");
 const videoContainer = document.getElementById("videoContainer");
 const form = document.getElementById("commentForm");
 
-const addComment = (text, id) => {
+const addComment = (text, id, avatar) => {
   const videoComments = document.querySelector(".video__comments ul");
   const newComment = document.createElement("li");
   const profileImg = document.createElement("img");
   const div = document.createElement("div");
   const span = document.createElement("span");
   const span2 = document.createElement("span");
-  const { avatar } = videoComments.dataset;
   newComment.dataset.commentId = id;
+  newComment.dataset.avatar = avatar;
   profileImg.src = `/${avatar}`;
   span.innerText = `${text}`;
   span2.innerText = "삭제";
@@ -41,9 +41,9 @@ const handleSubmit = async (event) => {
     body: JSON.stringify({ text }),
   });
   if (response.status === 201) {
-    const { newCommentId } = await response.json();
+    const { newCommentId, commentAvatar } = await response.json();
     textarea.value = "";
-    addComment(text, newCommentId);
+    addComment(text, newCommentId, commentAvatar);
   }
 };
 

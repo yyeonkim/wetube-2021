@@ -34,13 +34,14 @@ block content
                 textarea(cols="30", rows="10", placeholder="여기에 댓글을 달아주세요.")
                 button 등록
     div.video__comments
-        ul(data-avatar=loggedInUser.avatarUrl)
+        ul
             each comment in video.comments.reverse()
-                li.video__comment(data-commentId=comment._id)  
-                    img(src="/" + loggedInUser.avatarUrl)
+                li.video__comment(data-avatar=comment.owner.avatarUrl, data-commentId=comment._id)  
+                    img(src="/" + comment.owner.avatarUrl)
                     div
                         span.comment__text=comment.text
-                        span.comment__delete 삭제
+                        if String(comment.owner._id) === String(loggedInUser._id)
+                            span.comment__delete 삭제
 
     
 block scripts   

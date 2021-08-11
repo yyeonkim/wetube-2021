@@ -12,7 +12,15 @@ export const home = async (req, res) => {
 
 export const watch = async (req, res) => {
   const { id } = req.params;
-  const video = await Video.findById(id).populate("owner").populate("comments");
+  const video = await Video.findById(id)
+    .populate("owner")
+    .populate({
+      path: "comments",
+      populate: {
+        path: "owner",
+        model: "User",
+      },
+    });
   if (!video) {
     return res.render("404", { pageTitle: "영상을 찾을 수 없습니다." });
   }
@@ -140,12 +148,17 @@ export const createComment = async (req, res) => {
     return res.sendStatus(404);
   }
 
-  const comment = await Comment.create({
+  let comment = await Comment.create({
     text,
     owner: user._id,
     video: id,
   });
   video.comments.push(comment._id);
   video.save();
-  return res.status(201).json({ newCommentId: comment._id });
+  comment = await Comment.findById(comment._id).populate("owner");
+  console.log(comment);
+  return res.status(201).json({
+    newCommentId: comment._id,
+    commentAvatar: comment.owner.avatarUrl,
+  });
 };
