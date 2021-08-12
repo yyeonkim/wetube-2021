@@ -39,6 +39,7 @@ block content
                 li.video__comment(data-avatar=comment.owner.avatarUrl, data-commentid=comment._id)  
                     img(src="/" + comment.owner.avatarUrl)
                     div
+                        span.comment__name=comment.owner.name
                         span.comment__text=comment.text
                         if String(comment.owner._id) === String(loggedInUser._id)
                             span.comment__delete#commentDelete 삭제
