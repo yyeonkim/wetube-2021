@@ -35,7 +35,7 @@ const handleMute = (e) => {
   volumeRange.value = video.muted ? 0 : volumeValue;
 };
 
-const handleVolume = () => {
+const handleShowVolume = () => {
   volumeRange.classList = "showing";
 };
 
@@ -128,7 +128,7 @@ const handleEnded = () => {
 
 playBtn.addEventListener("click", handlePlayClick);
 muteBtn.addEventListener("click", handleMute);
-muteBtn.addEventListener("mousemove", handleVolume);
+muteBtn.addEventListener("mousemove", handleShowVolume);
 volumeRange.addEventListener("input", handleVolumeChange);
 video.addEventListener("loadedmetadata", handleLoadedMetadata);
 video.addEventListener("timeupdate", handleTimeUpdate);
