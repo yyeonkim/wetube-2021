@@ -156,11 +156,7 @@ export const createComment = async (req, res) => {
   video.comments.push(comment._id);
   video.save();
   comment = await Comment.findById(comment._id).populate("owner");
-  console.log(comment);
-  return res.status(201).json({
-    newCommentId: comment._id,
-    commentAvatar: comment.owner.avatarUrl,
-  });
+  return res.status(201).json(comment);
 };
 
 export const deleteComment = async (req, res) => {

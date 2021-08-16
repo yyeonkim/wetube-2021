@@ -4,25 +4,35 @@ const videoContainer = document.getElementById("videoContainer");
 const form = document.getElementById("commentForm");
 const deleteBtns = document.querySelectorAll("#commentDelete");
 
-const addComment = (text, id, avatar) => {
+const addComment = (comment) => {
   const videoComments = document.querySelector(".video__comments ul");
   const newComment = document.createElement("li");
+  const imgA = document.createElement("a");
+  const usernameA = document.createElement("a");
   const profileImg = document.createElement("img");
   const div = document.createElement("div");
-  const span = document.createElement("span");
+  const nameSpan = document.createElement("span");
+  const textSpan = document.createElement("span");
   const deleteBtn = document.createElement("span");
-  newComment.dataset.commentid = id;
-  newComment.dataset.avatar = avatar;
-  profileImg.src = `/${avatar}`;
-  span.innerText = `${text}`;
+  newComment.dataset.commentid = comment._id;
+  newComment.dataset.avatar = comment.owner.avatarUrl;
+  profileImg.src = `/${comment.owner.avatarUrl}`;
+  textSpan.innerText = `${comment.text}`;
+  nameSpan.innerText = `${comment.owner.username}`;
   deleteBtn.innerText = "삭제";
   newComment.className = "video__comment";
-  span.className = "comment__text";
+  textSpan.className = "comment__text";
+  nameSpan.className = "comment__name";
   deleteBtn.className = "comment__delete";
   deleteBtn.id = "commentDelete";
-  newComment.appendChild(profileImg);
+  imgA.href = `/users/${comment.owner._id}`;
+  usernameA.href = `/users/${comment.owner._id}`;
+  imgA.appendChild(profileImg);
+  usernameA.appendChild(nameSpan);
+  newComment.appendChild(imgA);
   newComment.appendChild(div);
-  div.appendChild(span);
+  div.appendChild(usernameA);
+  div.appendChild(textSpan);
   div.appendChild(deleteBtn);
   deleteBtn.addEventListener("click", handleDelete);
   videoComments.prepend(newComment);
@@ -44,18 +54,16 @@ const handleSubmit = async (event) => {
     body: JSON.stringify({ text }),
   });
   if (response.status === 201) {
-    const { newCommentId, commentAvatar } = await response.json();
+    const comment = await response.json();
     textarea.value = "";
-    addComment(text, newCommentId, commentAvatar);
+    addComment(comment);
   }
 };
 
 const handleDelete = async (event) => {
-  console.log("Click delete");
   const comment = event.target.parentElement.parentElement;
   const commentId = comment.dataset.commentid;
   const videoId = videoContainer.dataset.videoid;
-  console.log(comment);
   const response = await fetch(
     `/api/videos/${videoId}/comment/${commentId}/delete`,
     {

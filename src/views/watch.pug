@@ -4,18 +4,23 @@ block content
     div#videoContainer(data-videoid=video._id)
         video(src="/" + video.fileUrl)
         div#videoControls.videoControls    
-            span.videoControls__play
-                i#play.fas.fa-play
-            span.videoControls__volume
-                i#mute.fas.fa-volume-down.fa-lg
-                input(type="range" step="0.1" value="0.8" min="0", max="1")#volume
-            div.videoControls__time 
-                span#currentTime 00:00
-                span  / 
-                span#totalTime 00:00
             input(type="range" step="1" value="0" min="0")#timeline.videoControls__timeline 
-            span.videoControls__full
-                i#fullScreenBtn.fas.fa-expand
+            div.videoControls-bottom
+                div.videoControls-left
+                    span.videoControls__play
+                        i#play.fas.fa-pause
+                    span.videoControls__volume
+                        i#mute.fas.fa-volume-down.fa-lg
+                    input(type="range" step="0.1" value="0.8" min="0", max="1")#volume
+                    div.videoControls__time 
+                        span#currentTime 00:00
+                        span  / 
+                        span#totalTime 00:00
+                span.videoControls__full
+                    i#fullScreenBtn.fas.fa-expand
+    div.video__edit
+            a(href=`${video.id}/edit`) 편집하기 &rarr;
+            a(href=`${video.id}/delete`) 삭제하기 &rarr;
     div.video__info
         span.video__title=video.title
         p.video__description=video.description
@@ -23,23 +28,22 @@ block content
             a(href=`/users/${video.owner._id}`)=video.owner.name
         small  • #{video.createdAt}
     if String(video.owner._id) === String(loggedInUser._id)
-        div
-            a(href=`${video.id}/edit`) 편집하기 &rarr;
-            br
-            a(href=`${video.id}/delete`) 삭제하기 &rarr;
+        
     
     if loggedInUser
         div.video__add-comments 
             form.video__comment-form#commentForm
-                textarea(cols="30", rows="10", placeholder="여기에 댓글을 달아주세요.")
+                textarea(row="1" style="width:100%;", placeholder="여기에 댓글을 달아주세요.")
                 button 등록
     div.video__comments
         ul
             each comment in video.comments.reverse()
                 li.video__comment(data-avatar=comment.owner.avatarUrl, data-commentid=comment._id)  
-                    img(src="/" + comment.owner.avatarUrl)
+                    a(href=`/users/${comment.owner._id}`)
+                        img(src="/" + comment.owner.avatarUrl)
                     div
-                        span.comment__name=comment.owner.name
+                        a(href=`/users/${comment.owner._id}`)
+                            span.comment__name=comment.owner.username
                         span.comment__text=comment.text
                         if String(comment.owner._id) === String(loggedInUser._id)
                             span.comment__delete#commentDelete 삭제
