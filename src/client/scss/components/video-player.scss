@@ -8,23 +8,36 @@
     width: 100%;
   }
   .videoControls {
-    width: 95%;
-    position: absolute;
-    bottom: 0.625rem;
-    display: grid;
-    grid-template-columns: repeat(3, auto) 4fr auto;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
     align-items: center;
-    padding: 0.5rem 0;
-    background-color: rgba($color: #000000, $alpha: 0.7);
-    border-radius: 0.8rem;
+    position: absolute;
+    bottom: 10px;
     opacity: 0;
     transition: opacity 0.1s linear;
     &.showing {
       opacity: 1;
     }
   }
+  .videoControls-bottom {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    color: white;
+    margin-top: 5px;
+    .videoControls-left {
+      display: flex;
+      align-items: center;
+    }
+  }
+
+  .videoControls__timeline {
+    width: 98%;
+  }
+
   .videoControls__play {
-    padding: 0 1rem;
+    padding: 0 1.25rem;
   }
   .videoControls__volume {
     margin-right: 0.5rem;
@@ -44,10 +57,10 @@
     }
   }
   .videoControls__time {
-    margin-right: 0.5rem;
+    margin-left: 0.5rem;
   }
   .videoControls__full {
-    padding: 0 1rem;
+    padding: 0 1.25rem;
   }
 }
 

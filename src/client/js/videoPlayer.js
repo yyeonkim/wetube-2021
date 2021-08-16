@@ -8,13 +8,16 @@ const timeline = document.getElementById("timeline");
 const fullScreenBtn = document.getElementById("fullScreenBtn");
 const videoContainer = document.getElementById("videoContainer");
 const videoControls = document.getElementById("videoControls");
+const textarea = document.querySelector("textarea");
 
 let controlsTimeout = null;
 let controlsTimeoutMovement = null;
 let volumeValue = 0.8;
-video.volume = volumeValue;
 
-const handlePlayClick = (e) => {
+video.volume = volumeValue;
+video.play();
+
+const handlePlayClick = () => {
   if (video.paused) {
     video.play();
   } else {
@@ -23,7 +26,7 @@ const handlePlayClick = (e) => {
   playBtn.classList = video.paused ? "fas fa-play" : "fas fa-pause";
 };
 
-const handleMute = (e) => {
+const handleMute = () => {
   if (video.muted) {
     video.muted = false;
   } else {
@@ -120,10 +123,34 @@ const handleMouseLeave = () => {
 };
 
 const handleEnded = () => {
-  const { id } = videoContainer.dataset;
-  fetch(`/api/videos/${id}/view`, {
+  playBtn.classList = "fas fa-redo";
+  playBtn.addEventListener("click", handlePlayClick);
+  const { videoid } = videoContainer.dataset;
+  fetch(`/api/videos/${videoid}/view`, {
     method: "post",
   });
+};
+
+const handleKey = (event) => {
+  if (event.key === "f" && textarea.className !== "focused") {
+    handleFullScreen();
+  }
+  if (event.key === " " && textarea.className !== "focused") {
+    event.preventDefault();
+    handlePlayClick();
+  }
+};
+
+const handleVideoClick = () => {
+  handlePlayClick();
+};
+
+const handleFocus = (event) => {
+  if (event.type === "focus") {
+    textarea.classList = "focused";
+  } else {
+    textarea.classList.remove("focused");
+  }
 };
 
 playBtn.addEventListener("click", handlePlayClick);
@@ -133,8 +160,12 @@ volumeRange.addEventListener("input", handleVolumeChange);
 video.addEventListener("loadedmetadata", handleLoadedMetadata);
 video.addEventListener("timeupdate", handleTimeUpdate);
 video.addEventListener("ended", handleEnded);
+video.addEventListener("click", handleVideoClick);
 timeline.addEventListener("input", handleTimelineChange);
 fullScreenBtn.addEventListener("click", handleFullScreen);
 videoContainer.addEventListener("mousemove", handleMouseMove);
 videoContainer.addEventListener("mouseleave", handleMouseLeave);
 videoControls.addEventListener("mouseleave", handleLeaveControls);
+window.addEventListener("keydown", handleKey);
+textarea.addEventListener("focus", handleFocus);
+textarea.addEventListener("blur", handleFocus);
