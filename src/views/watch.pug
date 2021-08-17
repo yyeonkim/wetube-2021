@@ -26,7 +26,7 @@ block content
         span.video__title=video.title
         p.video__description=video.description
         small Uploaded by 
-            a(href=`/users/${video.owner._id}`)=video.owner.name
+            a(href=`/users/${video.owner._id}`)=video.owner.username
         small  • #{video.createdAt}
     
     if loggedInUser

@@ -10,7 +10,7 @@ block content
     form(method="POST", enctype="multipart/form-data").edit-profile__form
         label(for="avatar") 프로필 사진
         input(name="avatar", id="avatar",type="file", accept="image/*")
-        input(name="name", type="text", placeholder="이름",value=loggedInUser.name, required)
+        input(name="username", type="text", placeholder="이름",value=loggedInUser.username, required)
         input(name="email", type="email", placeholder="이메일",value=loggedInUser.email, required)
         input(name="location", type="text", placeholder="위치",value=loggedInUser.location)
         input(type="submit", value="저장하기").edit-profile__btn

@@ -7,21 +7,21 @@ export const getJoin = (req, res) =>
   res.render("join", { pageTitle: "회원가입" });
 
 export const postJoin = async (req, res) => {
-  const { name, username, email, password, password2, location } = req.body;
+  const { username, userId, email, password, password2, location } = req.body;
   const pageTitle = "회원가입";
   if (password !== password2) {
     req.flash("error", "비밀번호가 일치하지 않습니다.");
     return res.status(400).redirect("/join");
   }
-  const exists = await User.exists({ $or: [{ username }, { email }] });
+  const exists = await User.exists({ $or: [{ userId }, { email }] });
   if (exists) {
     req.flash("error", "이미 사용 중인 아이디/이메일입니다.");
     return res.status(400).redirect("/join");
   }
   try {
     await User.create({
-      name,
       username,
+      userId,
       email,
       password,
       location,
@@ -30,7 +30,7 @@ export const postJoin = async (req, res) => {
     return res.redirect("/login");
   } catch (error) {
     req.flash("error", error._message);
-    return res.status(400).redirect("upload");
+    return res.status(400).redirect("/join");
   }
 };
 
@@ -38,9 +38,8 @@ export const getLogin = (req, res) =>
   res.render("login", { pageTitle: "로그인" });
 
 export const postLogin = async (req, res) => {
-  const { username, password } = req.body;
-  const pageTitle = "로그인";
-  const user = await User.findOne({ username });
+  const { userId, password } = req.body;
+  const user = await User.findOne({ userId });
   if (!user) {
     req.flash("error", "존재하지 않는 계정입니다");
     return res.status(400).redirect("/login");
@@ -111,8 +110,8 @@ export const finishGithubLogin = async (req, res) => {
     let user = await User.findOne({ email: emailObj.email });
     if (!user) {
       user = await User.create({
-        name: userData.name,
-        username: userData.login,
+        username: userData.name,
+        userId: userData.login,
         email: emailObj.email,
         password: "",
         socialOnly: true,
@@ -138,7 +137,7 @@ export const postEdit = async (req, res) => {
     session: {
       user: { _id, email: sessionEmail, avatarUrl },
     },
-    body: { name, email, location },
+    body: { username, email, location },
     file,
   } = req;
   if (sessionEmail !== email) {
@@ -151,7 +150,7 @@ export const postEdit = async (req, res) => {
   const updatedUser = await User.findByIdAndUpdate(
     _id,
     {
-      name,
+      username,
       email,
       location,
       avatarUrl: file ? file.path : avatarUrl,
