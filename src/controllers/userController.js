@@ -143,7 +143,7 @@ export const postEdit = async (req, res) => {
   if (sessionEmail !== email) {
     const exists = await User.exists({ $or: [{ email }] });
     if (exists) {
-      req.flash("error", "이미 사용 중인 아이디/이메일입니다.");
+      req.flash("error", "이미 사용 중인 이메일입니다.");
       return res.status(400).redirect("edit-profile");
     }
   }
@@ -158,6 +158,7 @@ export const postEdit = async (req, res) => {
     { new: true }
   );
   req.session.user = updatedUser;
+  req.flash("info", "수정 완료되었습니다.");
   return res.redirect("/users/edit");
 };
 
