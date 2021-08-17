@@ -231,5 +231,5 @@ export const deleteUser = async (req, res) => {
   await Comment.deleteMany({ owner: _id });
   await User.deleteOne({ _id });
   req.session.destroy();
-  return res.redirect("/");
+  return res.sendStatus(201);
 };

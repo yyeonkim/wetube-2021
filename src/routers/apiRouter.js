@@ -4,6 +4,7 @@ import {
   createComment,
   deleteComment,
 } from "../controllers/videoController";
+import { deleteUser } from "../controllers/userController";
 
 const apiRouter = express.Router();
 
@@ -13,5 +14,6 @@ apiRouter.delete(
   "/videos/:videoId([0-9a-f]{24})/comment/:commentId([0-9a-f]{24})/delete",
   deleteComment
 );
+apiRouter.delete("/users/delete", deleteUser);
 
 export default apiRouter;

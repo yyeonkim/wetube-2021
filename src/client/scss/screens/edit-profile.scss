@@ -21,8 +21,12 @@
     margin-top: 1.25rem;
     display: flex;
     justify-content: space-between;
-    a {
+    a,
+    span {
       text-decoration: underline;
+    }
+    span {
+      cursor: pointer;
     }
   }
 }

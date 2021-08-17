@@ -1,6 +1,5 @@
 extends base.pug
 
-
 block content
     div.edit-profile__img
         if loggedInUser.avatarUrl === ""
@@ -17,6 +16,9 @@ block content
         div.edit-profile__others
             if (!loggedInUser.socialOnly)
                 a(href="change-password") 비밀번호 변경 &rarr;
-            a(href=`/users/delete`) 탈퇴하기 &rarr;
+            span#deleteBtn 탈퇴하기 &rarr;
+
+block scripts 
+    script(src="/assets/js/alertMessage.js")
         
         
