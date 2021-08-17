@@ -1,7 +1,9 @@
 import User from "../models/User";
 import Video from "../models/Video";
+import Comment from "../models/Comment";
 import bcrypt from "bcrypt";
 import fetch from "node-fetch";
+import { async } from "regenerator-runtime";
 
 export const getJoin = (req, res) =>
   res.render("join", { pageTitle: "회원가입" });
@@ -213,4 +215,21 @@ export const see = async (req, res) => {
       .render("404", { pageTitle: "존재하지 않는 회원입니다." });
   }
   return res.render("users/profile", { pageTitle: "프로필", user });
+};
+
+export const deleteUser = async (req, res) => {
+  const {
+    user: { _id },
+  } = req.session;
+  const user = await User.exists({ _id });
+  if (!user) {
+    return res
+      .status(404)
+      .render("404", { pageTitle: "계정을 찾을 수 없습니다." });
+  }
+  await Video.deleteMany({ owner: _id });
+  await Comment.deleteMany({ owner: _id });
+  await User.deleteOne({ _id });
+  req.session.destroy();
+  return res.redirect("/");
 };

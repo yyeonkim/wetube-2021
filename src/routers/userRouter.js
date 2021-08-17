@@ -8,6 +8,7 @@ import {
   finishGithubLogin,
   getChangePassword,
   postChangePassword,
+  deleteUser,
 } from "../controllers/userController";
 import {
   protectorMiddleware,
@@ -31,5 +32,6 @@ userRouter
   .get(getChangePassword)
   .post(postChangePassword);
 userRouter.get("/:id([0-9a-f]{24})", see);
+userRouter.get(`/delete`, protectorMiddleware, deleteUser);
 
 export default userRouter;

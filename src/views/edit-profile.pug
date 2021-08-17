@@ -14,8 +14,9 @@ block content
         input(name="email", type="email", placeholder="이메일",value=loggedInUser.email, required)
         input(name="location", type="text", placeholder="위치",value=loggedInUser.location)
         input(type="submit", value="저장하기").edit-profile__btn
-        if (!loggedInUser.socialOnly) 
-            div.edit-profile__password
-                a(href="change-password") 비밀번호 변경 &rarr;    
+        div.edit-profile__others
+            if (!loggedInUser.socialOnly)
+                a(href="change-password") 비밀번호 변경 &rarr;
+            a(href=`/users/delete`) 탈퇴하기 &rarr;
         
         

@@ -17,9 +17,10 @@
   .edit-profile__btn {
     margin-bottom: 0;
   }
-  .edit-profile__password {
+  .edit-profile__others {
     margin-top: 1.25rem;
-    text-align: center;
+    display: flex;
+    justify-content: space-between;
     a {
       text-decoration: underline;
     }
