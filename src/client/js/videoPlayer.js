@@ -11,7 +11,6 @@ const videoControls = document.getElementById("videoControls");
 const textarea = document.querySelector("textarea");
 
 let controlsTimeout = null;
-let controlsTimeoutMovement = null;
 let volumeValue = 0.8;
 
 video.volume = volumeValue;
@@ -108,18 +107,13 @@ const hideControls = () => videoControls.classList.remove("showing");
 const handleMouseMove = () => {
   if (controlsTimeout) {
     clearTimeout(controlsTimeout);
-    controlsTimeout = null;
-  }
-  if (controlsTimeoutMovement) {
-    clearTimeout(controlsTimeoutMovement);
-    controlsTimeoutMovement = null;
   }
   videoControls.classList.add("showing");
-  controlsTimeoutMovement = setTimeout(hideControls, 2000);
+  controlsTimeout = setTimeout(hideControls, 3000);
 };
 
 const handleMouseLeave = () => {
-  controlsTimeout = setTimeout(hideControls, 2000);
+  hideControls();
 };
 
 const handleEnded = () => {

@@ -9,26 +9,25 @@ block content
                 div.videoControls-left
                     span.videoControls__play
                         i#play.fas.fa-pause
-                    span.videoControls__volume
+                    div.videoControls__volume
                         i#mute.fas.fa-volume-down.fa-lg
-                    input(type="range" step="0.1" value="0.8" min="0", max="1")#volume
+                        input(type="range" step="0.1" value="0.8" min="0", max="1")#volume
                     div.videoControls__time 
                         span#currentTime 00:00
                         span  / 
                         span#totalTime 00:00
                 span.videoControls__full
                     i#fullScreenBtn.fas.fa-expand
-    div.video__edit
-            a(href=`${video.id}/edit`) 편집하기 &rarr;
-            a(href=`${video.id}/delete`) 삭제하기 &rarr;
+    if String(video.owner._id) === String(loggedInUser._id)
+        div.video__edit
+                a(href=`${video.id}/edit`) 편집하기 &rarr;
+                a(href=`${video.id}/delete`) 삭제하기 &rarr;
     div.video__info
         span.video__title=video.title
         p.video__description=video.description
         small Uploaded by 
             a(href=`/users/${video.owner._id}`)=video.owner.name
         small  • #{video.createdAt}
-    if String(video.owner._id) === String(loggedInUser._id)
-        
     
     if loggedInUser
         div.video__add-comments 
