@@ -8,7 +8,7 @@ let recorder;
 let videoFile;
 
 const files = {
-  input: "recording.web",
+  input: "recording.webm",
   ouput: "output.mp4",
   thumb: "thumbnail.jpg",
 };
