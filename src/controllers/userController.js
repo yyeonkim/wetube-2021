@@ -11,13 +11,16 @@ export const getJoin = (req, res) =>
 export const postJoin = async (req, res) => {
   const { username, userId, email, password, password2, location } = req.body;
   const pageTitle = "회원가입";
-  if (password !== password2) {
-    req.flash("error", "비밀번호가 일치하지 않습니다.");
+  const exists = await User.exists({
+    $or: [{ userId }, { email }, { username }],
+  });
+  console.log(exists);
+  if (exists) {
+    req.flash("error", `이미 사용 중인 닉네임/이메일/아이디입니다.`);
     return res.status(400).redirect("/join");
   }
-  const exists = await User.exists({ $or: [{ userId }, { email }] });
-  if (exists) {
-    req.flash("error", "이미 사용 중인 아이디/이메일입니다.");
+  if (password !== password2) {
+    req.flash("error", "비밀번호가 일치하지 않습니다.");
     return res.status(400).redirect("/join");
   }
   try {
