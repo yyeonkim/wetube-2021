@@ -177,3 +177,15 @@ export const deleteComment = async (req, res) => {
   await Comment.findByIdAndDelete(commentId);
   return res.sendStatus(200);
 };
+
+export const editComment = async (req, res) => {
+  const { videoId, commentId } = req.params;
+  const comment = await Comment.findById(commentId);
+  if (!comment) {
+    req.flash("error", "댓글을 찾을 수 없습니다.");
+    return res.sendStatus(400);
+  }
+  // edit comment
+  // update video
+  return res.sendStatus(200);
+};

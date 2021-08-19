@@ -3,6 +3,7 @@ const { async } = require("regenerator-runtime");
 const videoContainer = document.getElementById("videoContainer");
 const form = document.getElementById("commentForm");
 const deleteBtns = document.querySelectorAll("#commentDelete");
+const editBtns = document.querySelectorAll("#commentEdit");
 
 const addComment = (comment) => {
   const videoComments = document.querySelector(".video__comments ul");
@@ -75,6 +76,28 @@ const handleDelete = async (event) => {
   }
 };
 
+const handleEdit = async (event) => {
+  const text = document.getElementById("commentText");
+  // textarea 만들어서 새로운 값 text 받아내기
+
+  const comment = event.target.parentElement.parentElement;
+  const commentId = comment.dataset.commentid;
+  const videoId = videoContainer.dataset.videoid;
+  const response = await fetch(
+    `/api/videos/${videoId}/comment/${commentId}/edit`,
+    {
+      method: "post",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ text }),
+    }
+  );
+  if (response.status === 200) {
+    // 새 text로 comment 보이기
+  }
+};
+
 if (form) {
   form.addEventListener("submit", handleSubmit);
 }
@@ -82,5 +105,11 @@ if (form) {
 if (deleteBtns) {
   deleteBtns.forEach((btn) => {
     btn.addEventListener("click", handleDelete);
+  });
+}
+
+if (editBtns) {
+  editBtns.forEach((btn) => {
+    btn.addEventListener("click", handleEdit);
   });
 }

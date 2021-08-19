@@ -43,9 +43,10 @@ block content
                     div
                         a(href=`/users/${comment.owner._id}`)
                             span.comment__name=comment.owner.username
-                        span.comment__text=comment.text
+                        span.comment__text#commentText=comment.text
                         if String(comment.owner._id) === String(loggedInUser._id)
                             span.comment__delete#commentDelete 삭제
+                            span.comment__edit#commentEdit 수정
 
     
 block scripts   

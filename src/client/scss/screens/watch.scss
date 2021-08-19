@@ -75,9 +75,14 @@
       font-size: 14px;
       color: rgba($color: white, $alpha: 0.6);
     }
-    .comment__delete {
+    .comment__text {
       display: block;
+    }
+    .comment__delete,
+    .comment__edit {
+      display: inline-block;
       margin-top: 1.25rem;
+      margin-right: 0.625rem;
       font-size: 14px;
       color: rgba($color: white, $alpha: 0.6);
       cursor: pointer;
