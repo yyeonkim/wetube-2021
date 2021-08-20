@@ -17,11 +17,12 @@ const addComment = (comment) => {
   const deleteBtn = document.createElement("span");
   newComment.dataset.commentid = comment._id;
   newComment.dataset.avatar = comment.owner.avatarUrl;
-  profileImg.src = `/${comment.owner.avatarUrl}`;
+  profileImg.src = `${comment.owner.avatarUrl}`;
   textSpan.innerText = `${comment.text}`;
   nameSpan.innerText = `${comment.owner.username}`;
   deleteBtn.innerText = "삭제";
   newComment.className = "video__comment";
+  div.className = "comment__info";
   textSpan.className = "comment__text";
   nameSpan.className = "comment__name";
   deleteBtn.className = "comment__delete";
@@ -76,26 +77,60 @@ const handleDelete = async (event) => {
   }
 };
 
-const handleEdit = async (event) => {
-  const text = document.getElementById("commentText");
-  // textarea 만들어서 새로운 값 text 받아내기
+const handleEdit = (event) => {
+  const commentInfo = event.target.parentElement;
+  const commentText = commentInfo.children[1];
+  let text = commentText.innerText;
+  const form = document.createElement("form");
+  const textarea = document.createElement("textarea");
+  const button = document.createElement("button");
+  const editBtn = event.target;
+  form.classList = "comment__form";
+  button.innerText = "등록";
+  commentText.remove();
+  form.appendChild(textarea);
+  form.appendChild(button);
+  commentInfo.insertBefore(form, commentInfo.children[1]);
+  textarea.value = text;
+  editBtn.innerText = "취소";
 
-  const comment = event.target.parentElement.parentElement;
-  const commentId = comment.dataset.commentid;
-  const videoId = videoContainer.dataset.videoid;
-  const response = await fetch(
-    `/api/videos/${videoId}/comment/${commentId}/edit`,
-    {
-      method: "post",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ text }),
+  // 댓글 수정 취소
+  const insertComment = () => {
+    const span = document.createElement("span");
+    span.className = "comment__text";
+    span.innerText = text;
+    form.remove();
+    commentInfo.insertBefore(span, commentInfo.children[1]);
+    editBtn.innerText = "수정";
+    editBtn.removeEventListener("click", insertComment);
+    editBtn.addEventListener("click", handleEdit);
+  };
+  editBtn.removeEventListener("click", handleEdit);
+  editBtn.addEventListener("click", insertComment);
+
+  // 수정 댓글 등록
+  const handleSubmitEdit = async (event) => {
+    event.preventDefault();
+    const comment = event.target.parentElement.parentElement;
+    const commentId = comment.dataset.commentid;
+    const videoId = videoContainer.dataset.videoid;
+    text = textarea.value;
+    const response = await fetch(
+      `/api/videos/${videoId}/comment/${commentId}/edit`,
+      {
+        method: "post",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ text }),
+      }
+    );
+    if (response.status === 201) {
+      text = await response.json();
+      insertComment();
     }
-  );
-  if (response.status === 200) {
-    // 새 text로 comment 보이기
-  }
+  };
+  form.addEventListener("submit", handleSubmitEdit);
 };
 
 if (form) {

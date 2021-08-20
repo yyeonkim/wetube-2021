@@ -11,6 +11,7 @@
 @import "./components/forms.scss";
 @import "./components/social-login.scss";
 @import "./components/video-player.scss";
+@import "./components/textarea.scss";
 
 //Screens
 @import "./screens/search.scss";
@@ -30,13 +31,6 @@ body {
 a {
   color: inherit;
   text-decoration: none;
-}
-
-textarea {
-  font-family: "Roboto", "Noto Sans KR", sans-serif;
-  &::placeholder {
-    font-family: "Roboto", "Noto Sans KR", sans-serif;
-  }
 }
 
 main {

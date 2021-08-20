@@ -34,9 +34,10 @@ export const getEdit = async (req, res) => {
   } = req.session;
   const video = await Video.findById(id);
   if (!video) {
-    return res
-      .status(404)
-      .render("404", { pageTitle: "영상을 찾을 수 없습니다." });
+    return res.status(404).render("404", {
+      pageTitle: "404 Not Found",
+      message: "영상을 찾을 수 없습니다.",
+    });
   }
   if (String(video.owner) !== String(_id)) {
     req.flash("error", "Not authorized");
@@ -50,9 +51,10 @@ export const postEdit = async (req, res) => {
   const { title, description, hashtags } = req.body;
   const video = await Video.exists({ _id: id });
   if (!video) {
-    return res
-      .status(404)
-      .render("404", { pageTitle: "영상을 찾을 수 없습니다." });
+    return res.status(404).render("404", {
+      pageTitle: "404 Not Found",
+      message: "영상을 찾을 수 없습니다.",
+    });
   }
   await Video.findByIdAndUpdate(id, {
     title,
@@ -98,9 +100,10 @@ export const deleteVideo = async (req, res) => {
   } = req.session;
   const video = await Video.findById(id);
   if (!video) {
-    return res
-      .status(404)
-      .render("404", { pageTitle: "영상을 찾을 수 없습니다." });
+    return res.status(404).render("404", {
+      pageTitle: "404 Not Found",
+      message: "영상을 찾을 수 없습니다.",
+    });
   }
   if (String(video.owner) !== String(_id)) {
     req.flash("error", "Not authorized");
@@ -128,8 +131,10 @@ export const registerView = async (req, res) => {
   const { id } = req.params;
   const video = await Video.findById(id);
   if (!video) {
-    req.flash("error", "영상을 찾을 수 없습니다.");
-    return res.sendStatus(404);
+    return res.status(404).render("404", {
+      pageTitle: "404 Not Found",
+      message: "영상을 찾을 수 없습니다.",
+    });
   }
   video.meta.views = video.meta.views + 1;
   await video.save();
@@ -145,7 +150,10 @@ export const createComment = async (req, res) => {
 
   const video = await Video.findById(id);
   if (!video) {
-    return res.sendStatus(404);
+    return res.status(404).render("404", {
+      pageTitle: "404 Not Found",
+      message: "영상을 찾을 수 없습니다.",
+    });
   }
 
   let comment = await Comment.create({
@@ -163,29 +171,41 @@ export const deleteComment = async (req, res) => {
   const { videoId, commentId } = req.params;
   const video = await Video.findById(videoId);
   if (!video) {
-    req.flash("error", "존재하지 않는 영상입니다.");
-    return res.sendStatus(400);
+    return res.status(404).render("404", {
+      pageTitle: "404 Not Found",
+      message: "영상을 찾을 수 없습니다.",
+    });
   }
   video.comments.remove(commentId);
   video.save();
 
   const comment = await Comment.findById(commentId);
   if (!comment) {
-    req.flash("error", "댓글을 찾을 수 없습니다.");
-    return res.sendStatus(400);
+    return res.status(400).render("404", {
+      pageTitle: "404 Not Found",
+      message: "영상을 찾을 수 없습니다.",
+    });
   }
   await Comment.findByIdAndDelete(commentId);
   return res.sendStatus(200);
 };
 
 export const editComment = async (req, res) => {
-  const { videoId, commentId } = req.params;
-  const comment = await Comment.findById(commentId);
-  if (!comment) {
-    req.flash("error", "댓글을 찾을 수 없습니다.");
-    return res.sendStatus(400);
+  const {
+    params: { videoId, commentId },
+    body: { text },
+  } = req;
+  const video = await Video.findById(videoId);
+  if (!video) {
+    return res.status(404).render("404", {
+      pageTitle: "404 Not Found",
+      message: "영상을 찾을 수 없습니다.",
+    });
   }
-  // edit comment
-  // update video
-  return res.sendStatus(200);
+  const comment = await Comment.findByIdAndUpdate(
+    commentId,
+    { text },
+    { new: true }
+  );
+  return res.status(201).json(comment.text);
 };

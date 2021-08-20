@@ -40,10 +40,10 @@ block content
                 li.video__comment(data-avatar=comment.owner.avatarUrl, data-commentid=comment._id)  
                     a(href=`/users/${comment.owner._id}`)
                         img(src=comment.owner.avatarUrl)
-                    div
+                    div.comment__info
                         a(href=`/users/${comment.owner._id}`)
                             span.comment__name=comment.owner.username
-                        span.comment__text#commentText=comment.text
+                        span.comment__text=comment.text
                         if String(comment.owner._id) === String(loggedInUser._id)
                             span.comment__delete#commentDelete 삭제
                             span.comment__edit#commentEdit 수정

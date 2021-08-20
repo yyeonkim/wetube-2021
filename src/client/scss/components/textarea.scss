@@ -1,0 +1,35 @@
+textarea {
+  font-family: "Roboto", "Noto Sans KR", sans-serif;
+  &::placeholder {
+    font-family: "Roboto", "Noto Sans KR", sans-serif;
+  }
+}
+
+.comment__info {
+  width: 100%;
+  form {
+    max-width: 1200px;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    align-items: center;
+  }
+  textarea {
+    width: 100%;
+    padding: 0.625rem;
+    background-color: transparent;
+    border: none;
+    color: white;
+    &::placeholder {
+      color: rgba($color: white, $alpha: 0.6);
+      font-size: 15px;
+    }
+  }
+  button {
+    height: 3.125rem;
+    border: none;
+    background-color: rgba($color: white, $alpha: 0.6);
+    font-weight: 600;
+    min-width: 50px;
+  }
+}
