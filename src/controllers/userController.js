@@ -10,11 +10,9 @@ export const getJoin = (req, res) =>
 
 export const postJoin = async (req, res) => {
   const { username, userId, email, password, password2, location } = req.body;
-  const pageTitle = "회원가입";
   const exists = await User.exists({
     $or: [{ userId }, { email }, { username }],
   });
-  console.log(exists);
   if (exists) {
     req.flash("error", `이미 사용 중인 닉네임/이메일/아이디입니다.`);
     return res.status(400).redirect("/join");
@@ -213,9 +211,10 @@ export const see = async (req, res) => {
     },
   });
   if (!user) {
-    return res
-      .status(404)
-      .render("404", { pageTitle: "존재하지 않는 회원입니다." });
+    return res.status(404).render("404", {
+      pageTitle: "404 Not Found",
+      message: "존재하지 않는 회원입니다.",
+    });
   }
   return res.render("users/profile", { pageTitle: "프로필", user });
 };
@@ -228,7 +227,10 @@ export const deleteUser = async (req, res) => {
   if (!user) {
     return res
       .status(404)
-      .render("404", { pageTitle: "계정을 찾을 수 없습니다." });
+      .render("404", {
+        pageTitle: "404 Not Found",
+        message: "계정을 찾을 수 없습니다.",
+      });
   }
   await Video.deleteMany({ owner: _id });
   await Comment.deleteMany({ owner: _id });
