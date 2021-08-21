@@ -130,11 +130,13 @@ export const finishGithubLogin = async (req, res) => {
     return res.redirect("/login");
   }
 };
+
 export const getEdit = (req, res) => {
   return res.render("edit-profile", {
     pageTitle: "프로필 편집",
   });
 };
+
 export const postEdit = async (req, res) => {
   const {
     session: {
@@ -156,7 +158,7 @@ export const postEdit = async (req, res) => {
       username,
       email,
       location,
-      avatarUrl: file ? `/${file.path}` : avatarUrl,
+      avatarUrl: file ? `${file.location}` : avatarUrl,
     },
     { new: true }
   );
@@ -225,12 +227,10 @@ export const deleteUser = async (req, res) => {
   } = req.session;
   const user = await User.exists({ _id });
   if (!user) {
-    return res
-      .status(404)
-      .render("404", {
-        pageTitle: "404 Not Found",
-        message: "계정을 찾을 수 없습니다.",
-      });
+    return res.status(404).render("404", {
+      pageTitle: "404 Not Found",
+      message: "계정을 찾을 수 없습니다.",
+    });
   }
   await Video.deleteMany({ owner: _id });
   await Comment.deleteMany({ owner: _id });
