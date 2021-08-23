@@ -10,7 +10,7 @@ const handleClick = async () => {
     const response = await fetch("/api/users/delete", { method: "delete" });
     if (response.status === 201) {
       alert("탈퇴가 완료되었습니다.");
-      location.href = "http://localhost:4100/"; // homepage
+      location.href = "https://wetubecc.herokuapp.com/"; // homepage
     }
   }
 };
