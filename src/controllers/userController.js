@@ -10,16 +10,24 @@ export const getJoin = (req, res) =>
 
 export const postJoin = async (req, res) => {
   const { username, userId, email, password, password2, location } = req.body;
-  const exists = await User.exists({
-    $or: [{ userId }, { email }, { username }],
-  });
-  if (exists) {
-    req.flash("error", `이미 사용 중인 닉네임/이메일/아이디입니다.`);
-    return res.status(400).redirect("/join");
+  const nameExists = await User.exists({ username });
+  if (nameExists) {
+    req.flash("error", `이미 사용 중인 닉네임입니다.`);
+    return res.sendStatus(400);
+  }
+  const emailExists = await User.exists({ email });
+  if (emailExists) {
+    req.flash("error", `이미 사용 중인 이메일입니다.`);
+    return res.sendStatus(400);
+  }
+  const idExists = await User.exists({ userId });
+  if (idExists) {
+    req.flash("error", `이미 사용 중인 아이디입니다.`);
+    return res.sendStatus(400);
   }
   if (password !== password2) {
     req.flash("error", "비밀번호가 일치하지 않습니다.");
-    return res.status(400).redirect("/join");
+    return res.sendStatus(400);
   }
   try {
     await User.create({
@@ -140,18 +148,26 @@ export const getEdit = (req, res) => {
 export const postEdit = async (req, res) => {
   const {
     session: {
-      user: { _id, email: sessionEmail, avatarUrl },
+      user: { _id, email: sessionEmail, avatarUrl, username: sessionName },
     },
     body: { username, email, location },
     file,
   } = req;
   if (sessionEmail !== email) {
-    const exists = await User.exists({ $or: [{ email }] });
+    const exists = await User.exists({ email });
     if (exists) {
       req.flash("error", "이미 사용 중인 이메일입니다.");
       return res.status(400).redirect("edit-profile");
     }
   }
+  if (sessionName !== username) {
+    const exists = await User.exists({ username });
+    if (exists) {
+      req.flash("error", "이미 사용 중인 닉네임입니다.");
+      return res.status(400).redirect("edit-profile");
+    }
+  }
+
   const updatedUser = await User.findByIdAndUpdate(
     _id,
     {
@@ -232,6 +248,7 @@ export const deleteUser = async (req, res) => {
       message: "계정을 찾을 수 없습니다.",
     });
   }
+  // 비디오에 달린 댓글도 삭제
   await Video.deleteMany({ owner: _id });
   await Comment.deleteMany({ owner: _id });
   await User.deleteOne({ _id });
