@@ -13,21 +13,21 @@ export const postJoin = async (req, res) => {
   const nameExists = await User.exists({ username });
   if (nameExists) {
     req.flash("error", `이미 사용 중인 닉네임입니다.`);
-    return res.sendStatus(400);
+    return res.status(400).redirect("/join");
   }
   const emailExists = await User.exists({ email });
   if (emailExists) {
     req.flash("error", `이미 사용 중인 이메일입니다.`);
-    return res.sendStatus(400);
+    return res.status(400).redirect("/join");
   }
   const idExists = await User.exists({ userId });
   if (idExists) {
     req.flash("error", `이미 사용 중인 아이디입니다.`);
-    return res.sendStatus(400);
+    return res.status(400).redirect("/join");
   }
   if (password !== password2) {
     req.flash("error", "비밀번호가 일치하지 않습니다.");
-    return res.sendStatus(400);
+    return res.status(400).redirect("/join");
   }
   try {
     await User.create({
