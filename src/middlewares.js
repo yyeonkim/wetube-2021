@@ -56,3 +56,9 @@ export const videoUpload = multer({
   },
   storage: multerUploader,
 });
+
+export const sharedArrayBuffer = (req, res, next) => {
+  res.header("Cross-Origin-Embedder-Policy", "require-corp");
+  res.header("Cross-Origin-Opener-Policy", "same-origin");
+  next();
+};
