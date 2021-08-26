@@ -167,14 +167,14 @@ export const postEdit = async (req, res) => {
       return res.status(400).redirect("edit-profile");
     }
   }
-
+  const isHeroku = process.env.NOVE_ENV === "production";
   const updatedUser = await User.findByIdAndUpdate(
     _id,
     {
       username,
       email,
       location,
-      avatarUrl: file ? `${file.location}` : avatarUrl,
+      avatarUrl: file ? (isHeroku ? file.location : file.path) : avatarUrl,
     },
     { new: true }
   );

@@ -2,16 +2,10 @@ import multer from "multer";
 import multerS3 from "multer-s3";
 import aws, { ProcessCredentials } from "aws-sdk";
 
-const s3 = new aws.S3({
-  credentials: {
-    accessKeyId: process.env.AWS_ID,
-    secretAccessKey: process.env.AWS_SECRET,
-  },
-});
-
 export const localsMiddleware = (req, res, next) => {
   res.locals.loggedIn = Boolean(req.session.loggedIn);
   res.locals.loggedInUser = req.session.user || {};
+  res.locals.isHeroku = isHeroku;
   next();
 };
 
@@ -35,9 +29,24 @@ export const publicOnlyMiddleware = (req, res, next) => {
   }
 };
 
-const multerUploader = multerS3({
+const s3 = new aws.S3({
+  credentials: {
+    accessKeyId: process.env.AWS_ID,
+    secretAccessKey: process.env.AWS_SECRET,
+  },
+});
+
+const isHeroku = process.env.NODE_ENV === "production";
+
+const s3ImageUploader = multerS3({
   s3: s3,
-  bucket: "wetubecc",
+  bucket: "wetubecc/images",
+  acl: "public-read",
+});
+
+const s3VideoUploader = multerS3({
+  s3: s3,
+  bucket: "wetubecc/videos",
   acl: "public-read",
 });
 
@@ -46,7 +55,7 @@ export const avatarUpload = multer({
   limits: {
     fileSize: 2000000,
   },
-  storage: multerUploader,
+  storage: isHeroku ? s3ImageUploader : undefined,
 });
 
 export const videoUpload = multer({
@@ -54,5 +63,5 @@ export const videoUpload = multer({
   limit: {
     fileSize: 12000000,
   },
-  storage: multerUploader,
+  storage: isHeroku ? s3VideoUploader : undefined,
 });
