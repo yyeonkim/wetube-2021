@@ -139,7 +139,7 @@ const handleVideoClick = () => {
   handlePlayClick();
 };
 
-const handleFocus = (event) => {
+export const handleFocus = (event) => {
   if (event.type === "focus") {
     textarea.classList = "focused";
   } else {

@@ -1,3 +1,5 @@
+import { handleFocus } from "./videoPlayer";
+
 const { async } = require("regenerator-runtime");
 
 const videoContainer = document.getElementById("videoContainer");
@@ -18,7 +20,7 @@ const addComment = (comment) => {
   const editBtn = document.createElement("span");
   newComment.dataset.commentid = comment._id;
   newComment.dataset.avatar = comment.owner.avatarUrl;
-  profileImg.src = `${comment.owner.avatarUrl}`;
+  profileImg.src = `/${comment.owner.avatarUrl}`;
   textSpan.innerText = `${comment.text}`;
   nameSpan.innerText = `${comment.owner.username}`;
   deleteBtn.innerText = "삭제";
@@ -42,6 +44,7 @@ const addComment = (comment) => {
   div.appendChild(deleteBtn);
   div.appendChild(editBtn);
   deleteBtn.addEventListener("click", handleDelete);
+  editBtn.addEventListener("click", handleEdit);
   videoComments.prepend(newComment);
 };
 
@@ -98,6 +101,8 @@ const handleEdit = (event) => {
   commentInfo.insertBefore(form, commentInfo.children[1]);
   textarea.value = text;
   editBtn.innerText = "취소";
+  textarea.addEventListener("focus", handleFocus);
+  textarea.addEventListener("blur", handleFocus);
 
   // 댓글 수정 취소
   const insertComment = () => {
