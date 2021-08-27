@@ -2,7 +2,10 @@ extends base.pug
 
 block content
     div.edit-profile__img
-        img(src=loggedInUser.avatarUrl)
+        if (isHeroku)
+            img(src=loggedInUser.avatarUrl)
+        else 
+            img(src="/" + loggedInUser.avatarUrl)
     form(method="POST", enctype="multipart/form-data").edit-profile__form
         label(for="avatar") 프로필 사진
         input(name="avatar", id="avatar",type="file", accept="image/*")

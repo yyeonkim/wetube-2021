@@ -2,7 +2,10 @@ extends base.pug
 
 block content
     div#videoContainer(data-videoid=video._id)
-        video(src=video.fileUrl)
+        if(isHeroku)
+            video(src=video.fileUrl)
+        else 
+            video(src="/" + video.fileUrl)
         div#videoControls.videoControls    
             input(type="range" step="1" value="0" min="0")#timeline.videoControls__timeline 
             div.videoControls-bottom
@@ -39,7 +42,10 @@ block content
             each comment in video.comments.reverse()
                 li.video__comment(data-avatar=comment.owner.avatarUrl, data-commentid=comment._id)  
                     a(href=`/users/${comment.owner._id}`).a__img
-                        img(src=comment.owner.avatarUrl)
+                        if (isHeroku)
+                            img(src=comment.owner.avatarUrl)
+                        else 
+                            img(src="/" + comment.owner.avatarUrl)
                     div.comment__info
                         a(href=`/users/${comment.owner._id}`)
                             span.comment__name=comment.owner.username
