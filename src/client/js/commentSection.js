@@ -1,6 +1,4 @@
-import { handleFocus } from "./videoPlayer";
-
-const { async } = require("regenerator-runtime");
+import { async } from "regenerator-runtime";
 
 const videoContainer = document.getElementById("videoContainer");
 const form = document.getElementById("commentForm");
@@ -21,8 +19,8 @@ const addComment = (comment) => {
   newComment.dataset.commentid = comment._id;
   newComment.dataset.avatar = comment.owner.avatarUrl;
   profileImg.src = `/${comment.owner.avatarUrl}`;
-  textSpan.innerText = `${comment.text}`;
-  nameSpan.innerText = `${comment.owner.username}`;
+  textSpan.innerText = comment.text;
+  nameSpan.innerText = comment.owner.username;
   deleteBtn.innerText = "삭제";
   editBtn.innerText = "수정";
   newComment.className = "video__comment";
@@ -89,27 +87,25 @@ const handleEdit = (event) => {
   const commentInfo = event.target.parentElement;
   const commentText = commentInfo.children[1];
   let text = commentText.innerText;
-  const form = document.createElement("form");
+  const newForm = document.createElement("form");
   const textarea = document.createElement("textarea");
   const button = document.createElement("button");
   const editBtn = event.target;
-  form.classList = "comment__form";
+  newForm.classList = "comment__form";
   button.innerText = "등록";
   commentText.remove();
-  form.appendChild(textarea);
-  form.appendChild(button);
-  commentInfo.insertBefore(form, commentInfo.children[1]);
+  newForm.appendChild(textarea);
+  newForm.appendChild(button);
+  commentInfo.insertBefore(newForm, commentInfo.children[1]);
   textarea.value = text;
   editBtn.innerText = "취소";
-  textarea.addEventListener("focus", handleFocus);
-  textarea.addEventListener("blur", handleFocus);
 
   // 댓글 수정 취소
   const insertComment = () => {
     const span = document.createElement("span");
     span.className = "comment__text";
     span.innerText = text;
-    form.remove();
+    newForm.remove();
     commentInfo.insertBefore(span, commentInfo.children[1]);
     editBtn.innerText = "수정";
     editBtn.removeEventListener("click", insertComment);
@@ -140,7 +136,7 @@ const handleEdit = (event) => {
       insertComment();
     }
   };
-  form.addEventListener("submit", handleSubmitEdit);
+  newForm.addEventListener("submit", handleSubmitEdit);
 };
 
 if (form) {

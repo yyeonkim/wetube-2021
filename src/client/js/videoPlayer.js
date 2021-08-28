@@ -1,3 +1,5 @@
+import { async } from "regenerator-runtime";
+
 const video = document.querySelector("video");
 const playBtn = document.getElementById("play");
 const muteBtn = document.getElementById("mute");
@@ -16,7 +18,7 @@ let volumeValue = 0.8;
 video.volume = volumeValue;
 video.play();
 
-const handlePlayClick = () => {
+const handlePlayClick = async () => {
   if (video.paused) {
     video.play();
   } else {
@@ -125,11 +127,11 @@ const handleEnded = () => {
   });
 };
 
-const handleKey = (event) => {
-  if (event.key === "f" && textarea.className !== "focused") {
+export const handleKey = (event) => {
+  if (event.key === "f") {
     handleFullScreen();
   }
-  if (event.key === " " && textarea.className !== "focused") {
+  if (event.key === " ") {
     event.preventDefault();
     handlePlayClick();
   }
@@ -139,11 +141,11 @@ const handleVideoClick = () => {
   handlePlayClick();
 };
 
-export const handleFocus = (event) => {
+const handleFocus = (event) => {
   if (event.type === "focus") {
-    textarea.classList = "focused";
+    window.removeEventListener("keydown", handleKey);
   } else {
-    textarea.classList.remove("focused");
+    window.addEventListener("keydown", handleKey);
   }
 };
 
@@ -160,6 +162,6 @@ fullScreenBtn.addEventListener("click", handleFullScreen);
 videoContainer.addEventListener("mousemove", handleMouseMove);
 videoContainer.addEventListener("mouseleave", handleMouseLeave);
 videoControls.addEventListener("mouseleave", handleLeaveControls);
-window.addEventListener("keydown", handleKey);
 textarea.addEventListener("focus", handleFocus);
 textarea.addEventListener("blur", handleFocus);
+window.addEventListener("keydown", handleKey);
