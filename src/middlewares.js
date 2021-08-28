@@ -1,6 +1,8 @@
 import multer from "multer";
 import multerS3 from "multer-s3";
-import aws, { ProcessCredentials } from "aws-sdk";
+import aws from "aws-sdk";
+
+const isHeroku = process.env.NODE_ENV === "production";
 
 export const localsMiddleware = (req, res, next) => {
   res.locals.loggedIn = Boolean(req.session.loggedIn);
@@ -35,8 +37,6 @@ const s3 = new aws.S3({
     secretAccessKey: process.env.AWS_SECRET,
   },
 });
-
-const isHeroku = process.env.NODE_ENV === "production";
 
 const s3ImageUploader = multerS3({
   s3: s3,
