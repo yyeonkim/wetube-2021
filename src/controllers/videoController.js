@@ -100,6 +100,10 @@ export const deleteVideo = async (req, res) => {
     user: { _id },
   } = req.session;
   const video = await Video.findById(id);
+  const commentIds = video.comments;
+  for (let i = 0; i < commentIds.length; i++) {
+    await Comment.findByIdAndDelete(commentIds[i]);
+  }
   if (!video) {
     return res.status(404).render("404", {
       pageTitle: "404 Not Found",
