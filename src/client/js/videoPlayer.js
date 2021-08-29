@@ -10,7 +10,6 @@ const timeline = document.getElementById("timeline");
 const fullScreenBtn = document.getElementById("fullScreenBtn");
 const videoContainer = document.getElementById("videoContainer");
 const videoControls = document.getElementById("videoControls");
-const textarea = document.querySelector("textarea");
 
 let controlsTimeout = null;
 let volumeValue = 0.8;
@@ -144,4 +143,3 @@ fullScreenBtn.addEventListener("click", handleFullScreen);
 videoContainer.addEventListener("mousemove", handleMouseMove);
 videoContainer.addEventListener("mouseleave", handleMouseLeave);
 videoControls.addEventListener("mouseleave", handleLeaveControls);
-window.addEventListener("keydown", handleKey);
