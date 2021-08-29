@@ -167,7 +167,7 @@ export const postEdit = async (req, res) => {
       return res.status(400).redirect("edit-profile");
     }
   }
-  const isHeroku = process.env.NOVE_ENV === "production";
+  const isHeroku = process.env.NODE_ENV === "production";
   const updatedUser = await User.findByIdAndUpdate(
     _id,
     {

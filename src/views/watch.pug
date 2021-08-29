@@ -2,7 +2,7 @@ extends base.pug
 
 block content
     div#videoContainer(data-videoid=video._id)
-        if(isHeroku)
+        if (isHeroku)
             video(src=video.fileUrl)
         else 
             video(src="/" + video.fileUrl)
