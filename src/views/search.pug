@@ -7,8 +7,8 @@ block content
         button
             i.fas.fa-search
 
-    each video in videos    
-        div.video-grid
+    div.video-grid
+        each video in videos
             +video(video)
-    else 
-        span.empty__message 찾으시는 동영상이 없습니다.
+        else 
+            span.empty__message 찾으시는 동영상이 없습니다.
