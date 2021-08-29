@@ -18,7 +18,7 @@ const addComment = (comment) => {
   const editBtn = document.createElement("span");
   newComment.dataset.commentid = comment._id;
   newComment.dataset.avatar = comment.owner.avatarUrl;
-  profileImg.src = `/${comment.owner.avatarUrl}`;
+  profileImg.src = comment.owner.avatarUrl;
   textSpan.innerText = comment.text;
   nameSpan.innerText = comment.owner.username;
   deleteBtn.innerText = "삭제";
