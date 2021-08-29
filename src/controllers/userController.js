@@ -174,7 +174,7 @@ export const postEdit = async (req, res) => {
       username,
       email,
       location,
-      avatarUrl: file ? (isHeroku ? file.location : file.path) : avatarUrl,
+      avatarUrl: file ? file.path : avatarUrl,
     },
     { new: true }
   );
