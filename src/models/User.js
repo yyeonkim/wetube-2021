@@ -6,7 +6,7 @@ const userSchema = new mongoose.Schema({
   avatarUrl: {
     type: String,
     default:
-      "https://i1.wp.com/jejuhydrofarms.com/wp-content/uploads/2020/05/blank-profile-picture-973460_1280.png?fit=300%2C300&ssl=1",
+      "https://wetubecc.s3.us-east-2.amazonaws.com/images/default-profile.png",
   },
   socialOnly: { type: Boolean, default: false },
   userId: { type: String, required: true, unique: true },
