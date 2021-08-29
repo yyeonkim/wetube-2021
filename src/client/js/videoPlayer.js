@@ -128,25 +128,13 @@ const handleEnded = () => {
 };
 
 export const handleKey = (event) => {
-  if (event.key === "f") {
-    handleFullScreen();
-  }
   if (event.key === " ") {
     event.preventDefault();
-    handlePlayClick();
   }
 };
 
 const handleVideoClick = () => {
   handlePlayClick();
-};
-
-const handleFocus = (event) => {
-  if (event.type === "focus") {
-    window.removeEventListener("keydown", handleKey);
-  } else {
-    window.addEventListener("keydown", handleKey);
-  }
 };
 
 playBtn.addEventListener("click", handlePlayClick);
@@ -162,6 +150,4 @@ fullScreenBtn.addEventListener("click", handleFullScreen);
 videoContainer.addEventListener("mousemove", handleMouseMove);
 videoContainer.addEventListener("mouseleave", handleMouseLeave);
 videoControls.addEventListener("mouseleave", handleLeaveControls);
-textarea.addEventListener("focus", handleFocus);
-textarea.addEventListener("blur", handleFocus);
 window.addEventListener("keydown", handleKey);
