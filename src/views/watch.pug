@@ -42,10 +42,7 @@ block content
             each comment in video.comments.reverse()
                 li.video__comment(data-avatar=comment.owner.avatarUrl, data-commentid=comment._id)  
                     a(href=`/users/${comment.owner._id}`).a__img
-                        if (isHeroku)
-                            img(src=comment.owner.avatarUrl)
-                        else 
-                            img(src="/" + comment.owner.avatarUrl)
+                        img(src=comment.owner.avatarUrl)
                     div.comment__info
                         a(href=`/users/${comment.owner._id}`)
                             span.comment__name=comment.owner.username
