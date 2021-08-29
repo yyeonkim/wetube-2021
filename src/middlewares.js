@@ -77,6 +77,7 @@ export const s3DeleteImage = (req, res, next) => {
         if (err) {
           throw err;
         }
+        console.log("s3 deleteObject ", data);
       }
     );
   }

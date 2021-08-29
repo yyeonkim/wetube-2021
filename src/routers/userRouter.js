@@ -24,7 +24,7 @@ userRouter
   .route("/edit")
   .all(protectorMiddleware)
   .get(getEdit)
-  .post(s3DeleteImage, avatarUpload.single("avatar"), postEdit);
+  .post(avatarUpload.single("avatar"), s3DeleteImage, postEdit);
 userRouter.get("/github/start", publicOnlyMiddleware, startGithubLogin);
 userRouter.get("/github/finish", publicOnlyMiddleware, finishGithubLogin);
 userRouter
