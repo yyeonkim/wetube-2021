@@ -1,4 +1,5 @@
 import { async } from "regenerator-runtime";
+import getBlobDuration from "get-blob-duration";
 
 const video = document.querySelector("video");
 const playBtn = document.getElementById("play");
@@ -74,11 +75,20 @@ const formatTime = (seconds) => {
   return time;
 };
 
+const setTotalTime = async () => {
+  const duration = await getBlobDuration(video.src);
+  totalTime.innerText = formatTime(Math.floor(duration));
+  currentTime.innerText = formatTime(Math.floor(video.currentTime));
+  timeline.max = Math.floor(duration);
+};
+setTotalTime();
+/*
 const handleLoadedMetadata = () => {
   totalTime.innerText = formatTime(Math.floor(video.duration));
   currentTime.innerText = formatTime(Math.floor(video.currentTime));
   timeline.max = Math.floor(video.duration);
 };
+*/
 
 const handleTimeUpdate = () => {
   currentTime.innerText = formatTime(video.currentTime);
@@ -134,7 +144,7 @@ playBtn.addEventListener("click", handlePlayClick);
 muteBtn.addEventListener("click", handleMute);
 muteBtn.addEventListener("mousemove", handleShowVolume);
 volumeRange.addEventListener("input", handleVolumeChange);
-video.addEventListener("loadedmetadata", handleLoadedMetadata);
+//video.addEventListener("loadedmetadata", handleLoadedMetadata);
 video.addEventListener("timeupdate", handleTimeUpdate);
 video.addEventListener("ended", handleEnded);
 video.addEventListener("click", handleVideoClick);
