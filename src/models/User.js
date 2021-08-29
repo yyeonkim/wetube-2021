@@ -6,7 +6,7 @@ const userSchema = new mongoose.Schema({
   avatarUrl: {
     type: String,
     default:
-      "https://wetubecc.s3.us-east-2.amazonaws.com/images/default-profile.png",
+      "https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FdIPSp7%2FbtrdwTOabj5%2Fe17j64FP5b4uCOc18K8XKk%2Fimg.png",
   },
   socialOnly: { type: Boolean, default: false },
   userId: { type: String, required: true, unique: true },
