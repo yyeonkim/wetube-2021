@@ -127,12 +127,6 @@ const handleEnded = () => {
   });
 };
 
-export const handleKey = (event) => {
-  if (event.key === " ") {
-    event.preventDefault();
-  }
-};
-
 const handleVideoClick = () => {
   handlePlayClick();
 };
