@@ -65,3 +65,20 @@ export const videoUpload = multer({
   },
   storage: isHeroku ? s3VideoUploader : undefined,
 });
+
+export const s3DeleteImage = (req, res, next) => {
+  if (req.file) {
+    s3.deleteObject(
+      {
+        Bucket: "wetubecc",
+        Key: `images/${req.session.user.avatarUrl.split("/")[4]}`,
+      },
+      (err, data) => {
+        if (err) {
+          throw err;
+        }
+      }
+    );
+  }
+  next();
+};

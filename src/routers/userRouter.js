@@ -14,6 +14,7 @@ import {
   protectorMiddleware,
   publicOnlyMiddleware,
   avatarUpload,
+  s3DeleteImage,
 } from "../middlewares";
 
 const userRouter = express.Router();
@@ -23,7 +24,7 @@ userRouter
   .route("/edit")
   .all(protectorMiddleware)
   .get(getEdit)
-  .post(avatarUpload.single("avatar"), postEdit);
+  .post(s3DeleteImage, avatarUpload.single("avatar"), postEdit);
 userRouter.get("/github/start", publicOnlyMiddleware, startGithubLogin);
 userRouter.get("/github/finish", publicOnlyMiddleware, finishGithubLogin);
 userRouter
